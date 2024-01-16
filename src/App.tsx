@@ -7,10 +7,14 @@ import AuthPage from "./pages/AuthPage";
 function App() {
   const router = createBrowserRouter(createRoutesFromElements(
       <Route>
-        <Route path="/">
-          <Route index element={<Layout/>}/>
-            <Route path="login" element={<AuthPage/>}/>
-        </Route>
+          <Route path="/" element={<Layout/>}>
+              <Route path="route-records" element={"text"}/>
+              <Route path="routes" element={"text"}/>
+              <Route path="cities" element={"text"}/>
+              <Route path="tickets" element={"text"}/>
+          </Route>
+
+          <Route path="login" element={<AuthPage/>}/>
       </Route>
   ))
 
