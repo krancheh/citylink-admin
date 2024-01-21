@@ -22,6 +22,8 @@ import {
 import UserService from "../api/UserService";
 import {AuthData} from "../types";
 import {Navigate} from "react-router-dom";
+import {useAppDispatch} from "../store";
+import {setUser} from "../store/userSlice";
 
 const AuthPage = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -37,6 +39,8 @@ const AuthPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
+    const dispatch = useAppDispatch();
+
 
     useEffect(() => {
         setPhoneNumberError("");
@@ -47,21 +51,25 @@ const AuthPage = () => {
     const submitAuthData: FormEventHandler = async (e) => {
         e.preventDefault();
 
+        if (phoneNumberError || passwordError) {
+            return setErrorMessage("Заполните все поля");
+        }
+
         try {
-            if (phoneNumberError || passwordError) {
-                return setErrorMessage("Заполните все поля");
-            }
-            const data: AuthData = { phoneNumber: phoneNumber.replace(/\D/g, ''), password };
+            const authData: AuthData = { phoneNumber: phoneNumber.replace(/\D/g, ''), password };
             setIsLoading(true);
-            const response = await UserService.login(data);
+            const response = await UserService.login(authData);
+            const {data} = response;
 
             // Remember me
             toRemember
                 ? localStorage.setItem("token", response.data.token)
                 : sessionStorage.setItem("token", response.data.token);
 
+            dispatch(setUser(data));
             setIsSuccess(true);
-        } catch (err: any) {
+        }
+        catch (err: any) {
             const { message } = err;
             if (message) {
                 setErrorMessage(message);

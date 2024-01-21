@@ -8,11 +8,18 @@ const $api = axios.create({
 
 
 $api.interceptors.request.use(config => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+    config.headers.Authorization = `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`;
     return config;
 })
 
-$api.interceptors.response.use(null, (error: IErrorMessage) => {
+$api.interceptors.response.use(
+    (response) => {
+        if (response.data.hasOwnProperty("role")) {
+            if (response.data.role !== "admin") throw { message: "Недостаточно прав" };
+        }
+        return response;
+    },
+    (error: IErrorMessage) => {
     if (error.response.data.message && error.response.status) {
         const message = error.response.data.message;
         const statusCode = error.response.status;

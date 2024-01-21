@@ -17,7 +17,8 @@ import {
     LocationCityOutlined,
     RouteOutlined
 } from "@mui/icons-material";
-import {Link, useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
+import CustomLink from "./CustomLink";
 
 interface IconsType {
     [key: string]: React.ReactNode;
@@ -39,15 +40,17 @@ const SideBar: React.FC<DrawerStatusProps> = (props) => {
     const drawer = (
         <div style={{width: "250px"}}>
             <Toolbar>
-                <Typography variant="h6" sx={{color: "inherit", textDecoration: "none"}} component={ props1 => <Link {...props1} to="/"/> }>CityLink</Typography>
+                <Typography variant="h6"><CustomLink to="/">CityLink</CustomLink></Typography>
             </Toolbar>
             <Divider/>
             <List>
                 {Object.keys(icons).map((text, index) => (
                     <ListItem key={text} disablePadding>
-                        <ListItemButton selected={location.pathname === pages[index]} component={props1 => <Link {...props1} to={pages[index]} onClick={closeDrawer}/>}>
-                            <ListItemIcon sx={{marginRight: "-20px"}}>{icons[text]}</ListItemIcon>
-                            <ListItemText primary={text}/>
+                        <ListItemButton selected={location.pathname === pages[index]}>
+                            <CustomLink to={pages[index]} onClick={closeDrawer}>
+                                <ListItemIcon sx={{marginRight: "-20px"}}>{icons[text]}</ListItemIcon>
+                                <ListItemText>{text}</ListItemText>
+                            </CustomLink>
                         </ListItemButton>
                     </ListItem>
                 ))}

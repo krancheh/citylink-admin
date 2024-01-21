@@ -8,7 +8,8 @@ export interface AuthData {
 export interface TokenData {
     data: {
         token: string;
-        name?: string;
+        name: string;
+        role: string;
     }
 }
 
