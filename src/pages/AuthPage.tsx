@@ -22,8 +22,8 @@ import {
 import UserService from "../api/UserService";
 import {AuthData} from "../types";
 import {Navigate} from "react-router-dom";
-import {useAppDispatch} from "../store";
-import {setUser} from "../store/userSlice";
+import {useAppDispatch, useAppSelector} from "../store";
+import {selectToken, setUser} from "../store/userSlice";
 
 const AuthPage = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -40,7 +40,7 @@ const AuthPage = () => {
     const [isSuccess, setIsSuccess] = useState(false);
 
     const dispatch = useAppDispatch();
-
+    const token = useAppSelector(selectToken);
 
     useEffect(() => {
         setPhoneNumberError("");
@@ -59,6 +59,7 @@ const AuthPage = () => {
             const authData: AuthData = { phoneNumber: phoneNumber.replace(/\D/g, ''), password };
             setIsLoading(true);
             const response = await UserService.login(authData);
+            console.log(response)
             const {data} = response;
 
             // Remember me
@@ -72,6 +73,7 @@ const AuthPage = () => {
         catch (err: any) {
             const { message } = err;
             if (message) {
+                console.log(message)
                 setErrorMessage(message);
             }
         }
@@ -124,7 +126,9 @@ const AuthPage = () => {
     const handleShowPassword = () => setShowPassword(show => !show);
     const clearPhoneNumberInput = () => setPhoneNumber("");
 
-    if (isSuccess) return <Navigate to="/"/>
+    if (token || isSuccess || localStorage.getItem("token") || sessionStorage.getItem("token")) {
+        return <Navigate to="/"/>
+    }
 
     return (
         <main
