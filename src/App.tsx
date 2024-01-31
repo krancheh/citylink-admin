@@ -4,6 +4,7 @@ import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} fr
 import Layout from "./components/Layout";
 import AuthPage from "./pages/AuthPage";
 import RequireAuth from "./components/RequireAuth";
+import RouteRecordsPage from "./pages/RouteRecordsPage";
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
             {/* private routes */}
             <Route element={<RequireAuth/>}>
                 <Route path="/" element={<Layout/>}>
-                    <Route path="route-records" element={"text"}/>
+                    <Route path="route-records" element={<RouteRecordsPage/>}/>
                     <Route path="routes" element={"text"}/>
                     <Route path="cities" element={"text"}/>
                     <Route path="tickets" element={"text"}/>

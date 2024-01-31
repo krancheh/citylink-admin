@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     Box,
     Divider,
@@ -27,6 +27,10 @@ interface IconsType {
 const SideBar: React.FC<DrawerStatusProps> = (props) => {
     const { isDrawerOpen, closeDrawer } = props;
     const location = useLocation();
+
+    useEffect(() => {
+        closeDrawer?.();
+    }, [location])
 
     const icons: IconsType = {
         "Текущие рейсы": <EventNoteOutlined/>,

@@ -1,10 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
+import recordsReducer from "./routesSlice";
 import {useDispatch, TypedUseSelectorHook, useSelector} from "react-redux";
 
 const store = configureStore({
     reducer: {
         user: userReducer,
+        routes: recordsReducer,
     }
 })
 

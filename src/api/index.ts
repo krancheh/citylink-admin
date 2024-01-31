@@ -14,17 +14,17 @@ $api.interceptors.request.use(config => {
 
 $api.interceptors.response.use(
     (response) => {
-        if (response.data.hasOwnProperty("role")) {
+        if (response.data?.hasOwnProperty("role")) {
             if (response.data.role !== "admin") throw { message: "Недостаточно прав" };
         }
         return response;
     },
     (error: IErrorMessage) => {
-    if (error.response.data.message && error.response.status) {
-        const message = error.response.data.message;
-        const statusCode = error.response.status;
-        throw { message, statusCode };
-    }
+    // if (error.response.data.message && error.response.status) {
+    //     const message = error.response.data.message;
+    //     const statusCode = error.response.status;
+    //     throw { message, statusCode };
+    // }
     return error;
 })
 

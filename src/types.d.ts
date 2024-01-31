@@ -28,6 +28,27 @@ export interface UserData {
     favouriteCityCount?: number;
 }
 
+export interface RouteRecordSearchData {
+    departureCity?: string;
+    destinationCity?: string;
+    departureDate?: number;
+}
+
+export interface RouteRecordData {
+    id: number;
+    departureCity: string;
+    destinationCity: string;
+    departureDate: string;
+    duration: number;
+    price: number;
+}
+
+export interface RouteRecord extends RouteRecordData {
+    departureTime: string;
+    arrivalTime: string;
+    duration: string;
+}
+
 export interface IErrorMessage {
     response: {
         status: number;

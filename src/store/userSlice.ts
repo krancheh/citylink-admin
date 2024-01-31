@@ -7,13 +7,15 @@ interface IState {
     role: string;
 }
 
+const initialState: IState = {
+    name: "",
+    token: "",
+    role: "",
+}
+
 const userSlice = createSlice({
     name: "user",
-    initialState: {
-        name: "",
-        token: "",
-        role: "",
-    },
+    initialState,
     reducers: (creators) => ({
         setUser: creators.reducer<IState>((state, action) => {
             state.name = action.payload.name;

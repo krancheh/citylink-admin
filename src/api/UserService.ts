@@ -7,7 +7,7 @@ class UserService {
     static async login(data: AuthData): Promise<TokenData> {
         return this.userApi.post("/login", data);
     }
-    static async checkAuth(): Promise<TokenData> {
+    static async  checkAuth(): Promise<TokenData> {
         return this.userApi.get("auth");
     }
     static async update(data: UserData): Promise<TokenData> {
