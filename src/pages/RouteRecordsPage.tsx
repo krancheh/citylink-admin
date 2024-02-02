@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
-import { Autocomplete, Box, Button, Card, TextField, Typography } from "@mui/material";
+import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { Autocomplete, Box, Button, Card, IconButton, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { RouteRecord, RouteRecordSearchData } from "../types";
 import RoutesService from "../api/RoutesService";
@@ -9,7 +9,28 @@ import { getFormattedRoute } from "../utils/getFormattedRoute";
 import { useAppDispatch, useAppSelector } from "../store";
 import { selectRouteRecords, setRouteRecords } from "../store/routesSlice";
 import CustomAutocomplete, { OptionType } from "../components/CustomAutocomplete";
+import { SwapHorizOutlined, Update } from '@mui/icons-material';
 
+
+
+
+export const getCities = async (cityName: string) => {
+    try {
+        const response = await RoutesService.getCities(cityName);
+        const { cities } = response.data;
+
+        return new Promise<OptionType[] | []>((resolve) => {
+            const options = cities.map(city => {
+                const option: OptionType = { id: city.id, value: city.cityName };
+                return option;
+            });
+            resolve(options);
+        });
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+}
 
 
 
@@ -22,6 +43,8 @@ const RouteRecordsPage = () => {
     const [startDate, setStartDate] = useState<number | null>(null);
     const [endDate, setEndDate] = useState(null);
     const departureCityRef = useRef<OptionType | null>(null);
+    const [departureCity, setDepartureCity] = useState<OptionType | null>(null);
+    const [destinationCity, setDestinationCity] = useState<OptionType | null>(null);
     const destinationCityRef = useRef<OptionType | null>(null);
 
     const dispatch = useAppDispatch();
@@ -66,30 +89,15 @@ const RouteRecordsPage = () => {
 
 
 
-    const getCities = async (cityName: string) => {
-        try {
-            const response = await RoutesService.getCities(cityName);
-            const { cities } = response.data;
 
-            return new Promise<OptionType[] | []>((resolve) => {
-                const options = cities.map(city => {
-                    const option: OptionType = { id: city.id, value: city.cityName };
-                    return option;
-                });
-                resolve(options);
-            });
-        } catch (e) {
-            console.log(e);
-            throw e;
-        }
-    }
 
+    const memoGetCities = useCallback(getCities, []);
 
 
     const handleSearch = () => {
         getRouteRecords({
-            departureCity: departureCityRef.current?.value,
-            destinationCity: destinationCityRef.current?.value,
+            departureCity: departureCity?.value,
+            destinationCity: destinationCity?.value,
             departureDate: startDate ? new Date(startDate).getTime() : undefined
         });
     }
@@ -103,13 +111,23 @@ const RouteRecordsPage = () => {
 
     return (
         <Box m={"0 auto"} maxWidth={"1200px"}>
-            <Typography variant={"h4"}>Таблица рейсов</Typography>
+            <Box display="flex">
+                <Typography variant={"h4"}>Таблица рейсов</Typography>
+                <IconButton onClick={() => handleSearch()}><Update /></IconButton>
+            </Box>
             <Box display="flex" gap="10px" p="20px" flexWrap="wrap" sx={{ flexDirection: { xs: "column", sm: "row" } }}>
                 <InputWrapper>
-                    <CustomAutocomplete id="departureCity" fetchNewOptions={getCities} label="Город отправления" valueRef={departureCityRef} />
+                    <CustomAutocomplete id="departureCity" fetchNewOptions={memoGetCities} label="Город отправления" value={departureCity} setValue={setDepartureCity} />
                 </InputWrapper>
+                <IconButton onClick={() => {
+                    const temp = departureCity;
+                    setDepartureCity(destinationCity);
+                    setDestinationCity(temp);
+                }}>
+                    <SwapHorizOutlined />
+                </IconButton>
                 <InputWrapper>
-                    <CustomAutocomplete id="destinationCity" fetchNewOptions={getCities} label="Город отправления" valueRef={destinationCityRef} />
+                    <CustomAutocomplete id="destinationCity" fetchNewOptions={memoGetCities} label="Город отправления" value={destinationCity} setValue={setDestinationCity} />
                 </InputWrapper>
                 <InputWrapper>
                     <DatePicker label="От" slotProps={{ textField: { size: 'small', fullWidth: true } }} value={startDate} onChange={(value) => setStartDate(value)} />
@@ -119,11 +137,10 @@ const RouteRecordsPage = () => {
                 </InputWrapper>
                 <Button variant={"contained"} onClick={handleSearch}>Применить</Button>
             </Box>
-            <Card sx={{ maxWidth: "1200px" }}>
+            <Card>
                 <DataGrid
                     columns={columns}
                     rows={routeRecords || []}
-                    sx={{ maxWidth: "1200px" }}
                     checkboxSelection
                     loading={isRoutesLoading}
                     pagination

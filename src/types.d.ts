@@ -43,10 +43,22 @@ export interface RouteRecordData {
     price: number;
 }
 
+export interface Route {
+    id: number;
+    departureTime: string;
+    arrivalTime: string;
+    duration: string;
+}
+
 export interface RouteRecord extends RouteRecordData {
     departureTime: string;
     arrivalTime: string;
     duration: string;
+}
+
+export interface City {
+    id: number;
+    cityName: string;
 }
 
 export interface IErrorMessage {

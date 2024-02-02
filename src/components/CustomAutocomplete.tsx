@@ -11,15 +11,16 @@ export type OptionType = {
 interface TProps {
     id: string;
     label: string;
-    valueRef: MutableRefObject<OptionType | null>;
+    // valueRef: MutableRefObject<OptionType | null>;
+    value: OptionType | null;
+    setValue: (newOption: OptionType | null) => void;
     fetchNewOptions: (param: string) => Promise<OptionType[] | []>;
 }
 
 
 
-const CustomAutocomplete: React.FC<TProps> = ({ id, label, valueRef, fetchNewOptions }) => {
+const CustomAutocomplete: React.FC<TProps> = ({ id, label, value, setValue, fetchNewOptions }) => {
     const [inputValue, setInputValue] = useState("");
-    const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
     const [options, setOptions] = useState<readonly OptionType[] | readonly []>([]);
 
 
@@ -43,7 +44,7 @@ const CustomAutocomplete: React.FC<TProps> = ({ id, label, valueRef, fetchNewOpt
             memoDebouncedFetchOptions(inputValue);
         }
         else setOptions([]);
-    }, [inputValue, memoDebouncedFetchOptions])
+    }, [inputValue, memoDebouncedFetchOptions]);
 
 
     return (
@@ -54,8 +55,8 @@ const CustomAutocomplete: React.FC<TProps> = ({ id, label, valueRef, fetchNewOpt
                 setInputValue(value);
             }}
             onChange={(event, newValue: OptionType | null) => {
-                setSelectedOption(newValue);
-                valueRef.current = newValue;
+                // valueRef.current = newValue;
+                setValue(newValue);
             }}
             renderInput={(params) => (
                 <TextField
@@ -70,7 +71,7 @@ const CustomAutocomplete: React.FC<TProps> = ({ id, label, valueRef, fetchNewOpt
             autoComplete
             includeInputInList
             fullWidth
-            value={selectedOption}
+            value={value}
             openText="Раскрыть"
             closeText="Закрыть"
             noOptionsText="Ничего не найдено"
