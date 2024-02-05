@@ -1,4 +1,4 @@
-import { MutableRefObject, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Autocomplete, TextField } from "@mui/material";
 import createDebounce from "../utils/createDebounce";
 
@@ -11,7 +11,6 @@ export type OptionType = {
 interface TProps {
     id: string;
     label: string;
-    // valueRef: MutableRefObject<OptionType | null>;
     value: OptionType | null;
     setValue: (newOption: OptionType | null) => void;
     fetchNewOptions: (param: string) => Promise<OptionType[] | []>;
@@ -55,7 +54,6 @@ const CustomAutocomplete: React.FC<TProps> = ({ id, label, value, setValue, fetc
                 setInputValue(value);
             }}
             onChange={(event, newValue: OptionType | null) => {
-                // valueRef.current = newValue;
                 setValue(newValue);
             }}
             renderInput={(params) => (

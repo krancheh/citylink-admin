@@ -1,9 +1,11 @@
 import { Update } from '@mui/icons-material';
-import { Box, Card, IconButton, Typography } from '@mui/material'
+import { Box, Card, IconButton, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import React, { useEffect, useState } from 'react'
-import { City } from '../types';
+import { useEffect, useState } from 'react';
 import RoutesService from '../api/RoutesService';
+import { useAppDispatch, useAppSelector } from '../store';
+import { selectCities, setCities } from '../store/dataSlice';
+import PageWrapper from '../components/PageWrapper';
 
 
 const columns: GridColDef[] = [
@@ -12,24 +14,31 @@ const columns: GridColDef[] = [
 ]
 
 const CitiesPage = () => {
-    const [cities, setCities] = useState<City[]>([]);
     const [isCitiesLoading, setIsCitiesLoading] = useState(false);
+    const dispatch = useAppDispatch();
+    const cities = useAppSelector(selectCities);
 
     const getCities = async () => {
         setIsCitiesLoading(true);
 
-        const response = await RoutesService.getCities("");
-        setCities(response.data.cities);
+        try {
+            const response = await RoutesService.getCities("");
+            const { cities } = response.data;
 
-        setIsCitiesLoading(false);
+            dispatch(setCities({ cities }));
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setIsCitiesLoading(false);
+        }
     }
 
     useEffect(() => {
-        getCities();
+        if (!cities.length) getCities();
     }, []);
 
     return (
-        <Box m={"0 auto"} maxWidth={"1200px"}>
+        <PageWrapper>
             <Box display="flex" mb="20px">
                 <Typography variant={"h4"}>Таблица городов</Typography>
                 <IconButton onClick={() => getCities()}><Update /></IconButton>
@@ -44,7 +53,7 @@ const CitiesPage = () => {
                     />
                 </Card>
             </Box>
-        </Box>
+        </PageWrapper>
     )
 }
 

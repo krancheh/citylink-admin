@@ -26,21 +26,31 @@ export interface UserData {
     birthDate?: number;
     favouriteCity?: string;
     favouriteCityCount?: number;
+    role: string;
+    createdAt?: string;
 }
 
 export interface RouteRecordSearchData {
     departureCity?: string;
     destinationCity?: string;
     departureDate?: number;
+    pageNumber: number;
+    numberEntries: number;
 }
 
 export interface RouteRecordData {
-    id: number;
+    id: number | string;
     departureCity: string;
     destinationCity: string;
     departureDate: string;
     duration: number;
     price: number;
+}
+
+export interface TicketData extends RouteRecordData {
+    id: string;
+    passengerId: string;
+    seatNo: number;
 }
 
 export interface Route {
@@ -56,10 +66,22 @@ export interface RouteRecord extends RouteRecordData {
     duration: string;
 }
 
+export interface Ticket extends TicketData {
+    departureTime: string;
+    arrivalTime: string;
+    duration: string;
+}
+
 export interface City {
     id: number;
     cityName: string;
 }
+
+export interface User extends UserData {
+    birthdate?: string;
+    createdAt?: string;
+}
+
 
 export interface IErrorMessage {
     response: {

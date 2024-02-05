@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
-import {Outlet, useNavigate} from "react-router-dom";
+import { useEffect } from 'react';
+import { Outlet, useNavigate } from "react-router-dom";
 import UserService from "../api/UserService";
-import {useAppDispatch, useAppSelector} from "../store";
-import {resetUser, selectToken, setUser} from "../store/userSlice";
+import { useAppDispatch, useAppSelector } from "../store";
+import { resetUser, selectToken, setUser } from "../store/userSlice";
 
 const RequireAuth = () => {
     const dispatch = useAppDispatch();
@@ -40,7 +40,7 @@ const RequireAuth = () => {
         }
     }, [])
 
-    return <Outlet/>;
+    return <Outlet />;
 };
 
 export default RequireAuth;

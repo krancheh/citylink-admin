@@ -1,5 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {RootState} from "./index";
+import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "./index";
 
 interface IState {
     name: string;
@@ -21,8 +21,6 @@ const userSlice = createSlice({
             state.name = action.payload.name;
             state.token = action.payload.token;
             state.role = action.payload.role;
-
-            console.log('dispatched setUser'); // dev-log
         }),
         resetUser: creators.reducer((state) => {
             state.name = "";
@@ -41,7 +39,7 @@ export const selectFirstName = (state: RootState) => {
 }
 
 export const {
-     setUser,
+    setUser,
     resetUser,
 } = userSlice.actions;
 

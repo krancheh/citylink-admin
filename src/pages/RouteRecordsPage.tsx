@@ -1,5 +1,5 @@
-import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
-import { Autocomplete, Box, Button, Card, IconButton, TextField, Typography } from "@mui/material";
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import { Box, Button, Card, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { RouteRecord, RouteRecordSearchData } from "../types";
 import RoutesService from "../api/RoutesService";
@@ -7,9 +7,10 @@ import { useParams } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers";
 import { getFormattedRoute } from "../utils/getFormattedRoute";
 import { useAppDispatch, useAppSelector } from "../store";
-import { selectRouteRecords, setRouteRecords } from "../store/routesSlice";
+import { selectRouteRecords, setRouteRecords } from "../store/dataSlice";
 import CustomAutocomplete, { OptionType } from "../components/CustomAutocomplete";
 import { SwapHorizOutlined, Update } from '@mui/icons-material';
+import PageWrapper from '../components/PageWrapper';
 
 
 
@@ -40,17 +41,20 @@ const RouteRecordsPage = () => {
         pageSize: 15,
         page: 0,
     })
+    const [rowCount, setRowCount] = useState(0);
     const [startDate, setStartDate] = useState<number | null>(null);
     const [endDate, setEndDate] = useState(null);
-    const departureCityRef = useRef<OptionType | null>(null);
     const [departureCity, setDepartureCity] = useState<OptionType | null>(null);
     const [destinationCity, setDestinationCity] = useState<OptionType | null>(null);
-    const destinationCityRef = useRef<OptionType | null>(null);
+    const [searchParams, setSearchParams] = useState<RouteRecordSearchData>(
+        Object.assign(
+            useParams(),
+            { numberEntries: paginationModel.pageSize, pageNumber: paginationModel.page }
+        )
+    );
 
     const dispatch = useAppDispatch();
     const routeRecords = useAppSelector(selectRouteRecords);
-
-    const params: RouteRecordSearchData = useParams();
 
 
     const columns: GridColDef[] = [
@@ -70,6 +74,10 @@ const RouteRecordsPage = () => {
 
             const { data: routeRecordsData } = await RoutesService.getRouteRecords(searchData);
             const formattedRouteRecords: RouteRecord[] = routeRecordsData.routes.map((routeRecordData) => getFormattedRoute(routeRecordData));
+            const { countRecords } = routeRecordsData;
+            console.log(countRecords);
+
+            setRowCount(countRecords);
 
             dispatch(setRouteRecords({ routeRecords: formattedRouteRecords }));
         } catch (e) {
@@ -83,23 +91,38 @@ const RouteRecordsPage = () => {
     // --- onMount effect
     useEffect(() => {
         if (routeRecords.length === 0) {
-            getRouteRecords(params);
+            getRouteRecords(searchParams);
         }
     }, [])
 
+    useEffect(() => {
+        setRowCount((prevRowCountState) =>
+            rowCount !== undefined ? rowCount : prevRowCountState,
+        );
+    }, [rowCount, setRowCount]);
 
-
+    useEffect(() => {
+        setSearchParams({
+            departureCity: departureCity?.value,
+            destinationCity: destinationCity?.value,
+            departureDate: startDate ? new Date(startDate).getTime() : undefined,
+            pageNumber: paginationModel.page,
+            numberEntries: paginationModel.pageSize
+        })
+        getRouteRecords(searchParams);
+    }, [paginationModel])
 
 
     const memoGetCities = useCallback(getCities, []);
 
 
     const handleSearch = () => {
-        getRouteRecords({
-            departureCity: departureCity?.value,
-            destinationCity: destinationCity?.value,
-            departureDate: startDate ? new Date(startDate).getTime() : undefined
-        });
+        setPaginationModel((prevState) => ({
+            pageSize: prevState.pageSize,
+            page: 0,
+        }))
+
+        getRouteRecords(searchParams);
     }
 
 
@@ -110,7 +133,7 @@ const RouteRecordsPage = () => {
     }
 
     return (
-        <Box m={"0 auto"} maxWidth={"1200px"}>
+        <PageWrapper>
             <Box display="flex">
                 <Typography variant={"h4"}>Таблица рейсов</Typography>
                 <IconButton onClick={() => handleSearch()}><Update /></IconButton>
@@ -147,9 +170,11 @@ const RouteRecordsPage = () => {
                     paginationModel={paginationModel}
                     onPaginationModelChange={setPaginationModel}
                     pageSizeOptions={[15, 25]}
+                    paginationMode='server'
+                    rowCount={rowCount}
                 />
             </Card>
-        </Box>
+        </PageWrapper>
     );
 };
 

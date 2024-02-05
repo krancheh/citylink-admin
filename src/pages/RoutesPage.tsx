@@ -1,9 +1,11 @@
-import { Box, Card, IconButton, Typography } from '@mui/material'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import React, { useEffect, useState } from 'react'
+import { Box, Card, IconButton, Typography } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { useEffect, useState } from 'react';
 import RoutesService from '../api/RoutesService';
-import { Route } from '../types';
 import { Update } from '@mui/icons-material';
+import { useAppDispatch, useAppSelector } from '../store';
+import { selectRoutes, setRoutes } from '../store/dataSlice';
+import PageWrapper from '../components/PageWrapper';
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID", hideSortIcons: true, width: 65 },
@@ -13,24 +15,31 @@ const columns: GridColDef[] = [
 ]
 
 const RoutesPage = () => {
-    const [routes, setRoutes] = useState<Route[]>([]);
     const [isRoutesFetching, setIsRoutesFetching] = useState(false);
+    const dispatch = useAppDispatch();
+    const routes = useAppSelector(selectRoutes);
 
     const getRoutes = async () => {
         setIsRoutesFetching(true);
-        const response = await RoutesService.getRoutes();
 
-        setRoutes(response.data.routes);
-        setIsRoutesFetching(false);
+        try {
+            const response = await RoutesService.getRoutes();
+            const { routes } = response.data;
+            dispatch(setRoutes({ routes }));
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setIsRoutesFetching(false);
+        }
     }
 
     useEffect(() => {
-        getRoutes();
+        if (!routes.length) getRoutes();
     }, [])
 
 
     return (
-        <Box maxWidth="1200px" m="0 auto">
+        <PageWrapper>
             <Box display="flex" mb="20px">
                 <Typography variant={"h4"}>Таблица маршрутов</Typography>
                 <IconButton onClick={() => getRoutes()}><Update /></IconButton>
@@ -45,7 +54,7 @@ const RoutesPage = () => {
                     />
                 </Card>
             </Box>
-        </Box>
+        </PageWrapper>
     )
 }
 
