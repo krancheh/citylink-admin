@@ -16,6 +16,10 @@ class RoutesService {
     static async getRoutes(): Promise<{ data: { routes: Route[] } }> {
         return this.routeApi.get("/getRoutes");
     }
+
+    static async addCity(cityName: string): Promise<{ data: { result: City } }> {
+        return this.routeApi.post("/addCity", { cityName });
+    }
 }
 
 

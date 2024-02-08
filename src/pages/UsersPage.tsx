@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import UserService from '../api/UserService'
+import { useEffect, useState } from 'react';
+import UserService from '../api/UserService';
 import PageWrapper from '../components/PageWrapper';
 import { Box, Card, IconButton, Typography } from '@mui/material';
 import { Update } from '@mui/icons-material';
-import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useAppDispatch, useAppSelector } from '../store';
 import { selectUsers, setUsers } from '../store/dataSlice';
 import getFormattedUser from '../utils/getFormattedUser';

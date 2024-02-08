@@ -11,6 +11,7 @@ import { selectRouteRecords, setRouteRecords } from "../store/dataSlice";
 import CustomAutocomplete, { OptionType } from "../components/CustomAutocomplete";
 import { SwapHorizOutlined, Update } from '@mui/icons-material';
 import PageWrapper from '../components/PageWrapper';
+import CustomNoRowsMessage from '../components/CustomNoRowsMessage';
 
 
 
@@ -160,7 +161,7 @@ const RouteRecordsPage = () => {
                 </InputWrapper>
                 <Button variant={"contained"} onClick={handleSearch}>Применить</Button>
             </Box>
-            <Card>
+            <Card sx={{ height: "500px" }}>
                 <DataGrid
                     columns={columns}
                     rows={routeRecords || []}
@@ -172,6 +173,7 @@ const RouteRecordsPage = () => {
                     pageSizeOptions={[15, 25]}
                     paginationMode='server'
                     rowCount={rowCount}
+                    slots={{ noRowsOverlay: isRoutesLoading ? () => <p>Загрузка</p> : CustomNoRowsMessage }}
                 />
             </Card>
         </PageWrapper>

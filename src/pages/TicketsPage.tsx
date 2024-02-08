@@ -1,6 +1,6 @@
 import { Update } from '@mui/icons-material'
 import { Box, Card, IconButton, Typography } from '@mui/material'
-import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../store'
 import { selectTickets, setTickets } from '../store/dataSlice'
@@ -25,7 +25,7 @@ const columns: GridColDef[] = [
 
 
 const TicketsPage = () => {
-    const [paginationModel, setPaginationModel] = useState<GridPaginationModel | undefined>(undefined);
+    // const [paginationModel, setPaginationModel] = useState<GridPaginationModel | undefined>(undefined);
     const [isTicketsLoading, setIsTicketsLoading] = useState(false);
 
     const tickets = useAppSelector(selectTickets);
@@ -63,10 +63,10 @@ const TicketsPage = () => {
                     rows={tickets || []}
                     checkboxSelection
                     loading={isTicketsLoading}
-                    pagination
-                    paginationModel={paginationModel}
-                    onPaginationModelChange={setPaginationModel}
-                    pageSizeOptions={[15, 25]}
+                // pagination
+                // paginationModel={paginationModel}
+                // onPaginationModelChange={setPaginationModel}
+                // pageSizeOptions={[15, 25]}
                 />
             </Card>
         </PageWrapper>

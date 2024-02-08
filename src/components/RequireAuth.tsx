@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { Outlet, useNavigate } from "react-router-dom";
 import UserService from "../api/UserService";
 import { useAppDispatch, useAppSelector } from "../store";
@@ -9,12 +9,13 @@ const RequireAuth = () => {
     const navigate = useNavigate();
     const token = useAppSelector(selectToken);
 
+    useLayoutEffect(() => {
+        console.log("useLayoutEffect");
 
-    useEffect(() => {
-
-        if (!token && !localStorage.getItem("token") && !localStorage.getItem("token")) {
-            navigate("/login");
-            return;
+        if (!token && !localStorage.getItem("token") && !sessionStorage.getItem("token")) {
+            return () => {
+                navigate("/login");
+            };
         }
 
         if (!token) {
@@ -38,9 +39,9 @@ const RequireAuth = () => {
                     navigate("/login");
                 })
         }
-    }, [])
+    }, [token, dispatch, navigate])
 
-    return <Outlet />;
+    return token ? <Outlet /> : null
 };
 
 export default RequireAuth;

@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler, FocusEventHandler, FormEventHandler, useEffect, useState} from 'react';
+import { ChangeEventHandler, FocusEventHandler, FormEventHandler, useEffect, useState } from 'react';
 import {
     Alert,
     Avatar, Backdrop,
@@ -20,10 +20,10 @@ import {
     VisibilityOutlined,
 } from "@mui/icons-material";
 import UserService from "../api/UserService";
-import {AuthData} from "../types";
-import {Navigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../store";
-import {selectToken, setUser} from "../store/userSlice";
+import { AuthData } from "../types";
+import { Navigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../store";
+import { selectToken, setUser } from "../store/userSlice";
 
 const AuthPage = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -59,8 +59,7 @@ const AuthPage = () => {
             const authData: AuthData = { phoneNumber: phoneNumber.replace(/\D/g, ''), password };
             setIsLoading(true);
             const response = await UserService.login(authData);
-            console.log(response)
-            const {data} = response;
+            const { data } = response;
 
             // Remember me
             toRemember
@@ -73,7 +72,6 @@ const AuthPage = () => {
         catch (err: any) {
             const { message } = err;
             if (message) {
-                console.log(message)
                 setErrorMessage(message);
             }
         }
@@ -109,10 +107,12 @@ const AuthPage = () => {
             if (inputValue.length === 1 && inputValue !== "7") {
                 inputValue = "7" + inputValue[0];
             }
-            const formattedValue = '+7 (' + inputValue.slice(1, 4) + ') ' +
-                inputValue.slice(4, 7) + ' - ' +
-                inputValue.slice(7, 9) + ' - ' +
+            const formattedValue = (inputValue.length > 1 ? '+7 (' : "") + inputValue.slice(1, 4) + (inputValue.length > 4 ? ') ' : "") +
+                inputValue.slice(4, 7) + (inputValue.length > 7 ? ' - ' : "") +
+                inputValue.slice(7, 9) + (inputValue.length > 9 ? ' - ' : "") +
                 inputValue.slice(9, 11);
+
+            console.log(inputValue.length);
 
             setPhoneNumber(formattedValue);
         }
@@ -127,24 +127,24 @@ const AuthPage = () => {
     const clearPhoneNumberInput = () => setPhoneNumber("");
 
     if (token || isSuccess || localStorage.getItem("token") || sessionStorage.getItem("token")) {
-        return <Navigate to="/"/>
+        return <Navigate to="/" />
     }
 
     return (
         <main
-            style={{width: "auto"}}
+            style={{ width: "auto" }}
         >
-            <CssBaseline/>
-            <Paper variant="outlined" sx={{m: "70px auto", p: "30px", maxWidth: "450px", display: "block", position: "relative"}}>
+            <CssBaseline />
+            <Paper variant="outlined" sx={{ m: "70px auto", p: "30px", maxWidth: "450px", display: "block", position: "relative" }}>
                 <Stack alignItems="center">
-                    <Avatar sx={theme => ({bgcolor: theme.palette.primary.main, mb: "10px"})}>
-                        <LockOutlined/>
+                    <Avatar sx={theme => ({ bgcolor: theme.palette.primary.main, mb: "10px" })}>
+                        <LockOutlined />
                     </Avatar>
-                    <Typography variant="h5" sx={{mb: "30px"}}>Авторизация</Typography>
-                    <form style={{width: "100%"}} onSubmit={submitAuthData}>
-                        <FormGroup sx={{display: "flex", flexDirection: "column", gap: "25px"}}>
-                            <Box sx={{display: "flex", alignItems: "flex-end", gap: "5px", width: "100%"}}>
-                                <AccountCircleOutlined sx={{opacity: .7}} fontSize="large"/>
+                    <Typography variant="h5" sx={{ mb: "30px" }}>Авторизация</Typography>
+                    <form style={{ width: "100%" }} onSubmit={submitAuthData}>
+                        <FormGroup sx={{ display: "flex", flexDirection: "column", gap: "25px" }}>
+                            <Box sx={{ display: "flex", alignItems: "flex-end", gap: "5px", width: "100%" }}>
+                                <AccountCircleOutlined sx={{ opacity: .7 }} fontSize="large" />
                                 <TextField
                                     autoFocus
                                     label="Номер телефона"
@@ -162,13 +162,13 @@ const AuthPage = () => {
                                     InputProps={{
                                         endAdornment: (
                                             <IconButton onClick={clearPhoneNumberInput}>
-                                                <CloseOutlined/>
+                                                <CloseOutlined />
                                             </IconButton>)
                                     }}
                                 />
                             </Box>
-                            <Box sx={{display: "flex", alignItems: "flex-end", gap: "5px", width: "100%"}}>
-                                <Key sx={{opacity: .7}} fontSize="large"/>
+                            <Box sx={{ display: "flex", alignItems: "flex-end", gap: "5px", width: "100%" }}>
+                                <Key sx={{ opacity: .7 }} fontSize="large" />
                                 <TextField
                                     label="Пароль"
                                     type={showPassword ? "text" : "password"}
@@ -187,7 +187,7 @@ const AuthPage = () => {
                                             <InputAdornment position={"end"}>
                                                 <Tooltip title="Показать пароль" arrow>
                                                     <IconButton onClick={handleShowPassword}>
-                                                        {showPassword ? <VisibilityOffOutlined/> : <VisibilityOutlined/>}
+                                                        {showPassword ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
                                                     </IconButton>
                                                 </Tooltip>
                                             </InputAdornment>
@@ -196,14 +196,14 @@ const AuthPage = () => {
                             </Box>
                             <FormControlLabel
                                 onChange={() => setToRemember(prevState => !prevState)}
-                                control={<Switch/>}
+                                control={<Switch />}
                                 label="Запомнить"
                             />
                             <Collapse in={!!errorMessage}>
                                 <Alert severity="error">{errorMessage}</Alert>
                             </Collapse>
                             <Button
-                                sx={{width: "50%", alignSelf: "center", mt: "10px"}}
+                                sx={{ width: "50%", alignSelf: "center", mt: "10px" }}
                                 variant="contained"
                                 type="submit"
                             >
@@ -213,10 +213,10 @@ const AuthPage = () => {
                     </form>
                 </Stack>
                 <Grow in={isLoading}>
-                    <LinearProgress sx={{position: "absolute", bottom: 0, left: 0, width: "100%", borderBottomLeftRadius: "inherit", borderBottomRightRadius: "inherit"}}/>
+                    <LinearProgress sx={{ position: "absolute", bottom: 0, left: 0, width: "100%", borderBottomLeftRadius: "inherit", borderBottomRightRadius: "inherit" }} />
                 </Grow>
             </Paper>
-            <Backdrop open={isLoading}/>
+            <Backdrop open={isLoading} />
         </main>
     );
 };

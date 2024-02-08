@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { City, Route, RouteRecord, Ticket, User, UserData } from "../types";
+import { City, Route, RouteRecord, Ticket, User } from "../types";
 import { RootState } from "./index";
 
 interface IState {

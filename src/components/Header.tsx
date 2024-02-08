@@ -1,10 +1,10 @@
-import React, {MouseEventHandler, useState} from 'react';
-import {AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
+import React, { MouseEventHandler, useState } from 'react';
+import { AppBar, Avatar, Box, CircularProgress, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import {DrawerStatusProps} from "./Layout";
-import {useLocation} from "react-router-dom";
-import {useAppSelector} from "../store";
-import {selectFirstName} from "../store/userSlice";
+import { DrawerStatusProps } from "./Layout";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../store";
+import { resetUser, selectFirstName } from "../store/userSlice";
 
 
 const Header: React.FC<DrawerStatusProps> = (props) => {
@@ -12,10 +12,12 @@ const Header: React.FC<DrawerStatusProps> = (props) => {
 
     const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
 
+    const navigate = useNavigate();
     const location = useLocation();
     const firstName = useAppSelector(selectFirstName);
+    const dispatch = useAppDispatch();
 
-    const titleMap: {[key: string]: string} = {
+    const titleMap: { [key: string]: string } = {
         "/route-records": "Текущие рейсы",
         "/routes": "Маршруты",
         "/cities": "Города",
@@ -27,25 +29,31 @@ const Header: React.FC<DrawerStatusProps> = (props) => {
     }
 
     const handleCloseUserMenu = () => setMenuAnchor(null);
+    const logout = () => {
+        localStorage.clear();
+        sessionStorage.clear();
+        dispatch(resetUser());
+        navigate("/login");
+    }
 
     return (
-        <AppBar sx={{pl: {sm: "250px", xs: "none"}}}>
+        <AppBar sx={{ pl: { sm: "250px", xs: "none" } }}>
             <Toolbar>
-                <IconButton sx={{mr: "15px", display: {sm: "none"}}} onClick={openDrawer}>
-                    <MenuIcon/>
+                <IconButton sx={{ mr: "15px", display: { sm: "none" } }} onClick={openDrawer}>
+                    <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     {titleMap[location.pathname] || "Панель управления"}
                 </Typography>
                 <Box
                     display="flex"
                     alignItems="center"
                     gap="10px"
-                    sx={{cursor: "pointer"}}
+                    sx={{ cursor: "pointer" }}
                     onClick={handleOpenUserMenu}
                 >
-                    <Typography sx={{display: {sm: "block" ,xs: "none"}}}>{firstName}</Typography>
-                    <Avatar>{firstName[0]}</Avatar>
+                    <Typography sx={{ display: { sm: "block", xs: "none" } }}>{firstName}</Typography>
+                    <Avatar>{firstName ? firstName[0] : <CircularProgress />}</Avatar>
                 </Box>
                 <Menu
                     open={!!menuAnchor}
@@ -54,7 +62,9 @@ const Header: React.FC<DrawerStatusProps> = (props) => {
                 >
                     <MenuItem>Профиль</MenuItem>
                     <MenuItem>Настройки</MenuItem>
-                    <MenuItem>Выйти</MenuItem>
+                    <MenuItem onClick={logout}>
+                        <Typography sx={{ color: "#ff7373" }}>Выйти</Typography>
+                    </MenuItem>
                 </Menu>
             </Toolbar>
         </AppBar>
