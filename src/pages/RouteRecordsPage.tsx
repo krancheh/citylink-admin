@@ -47,11 +47,7 @@ const RouteRecordsPage = () => {
     const [endDate, setEndDate] = useState(null);
     const [departureCity, setDepartureCity] = useState<OptionType | null>(null);
     const [destinationCity, setDestinationCity] = useState<OptionType | null>(null);
-    const [searchParams, setSearchParams] = useState<RouteRecordSearchData>(
-        Object.assign(
-            useParams(),
-            { numberEntries: paginationModel.pageSize, pageNumber: paginationModel.page }
-        )
+    const [searchParams, setSearchParams] = useState<RouteRecordSearchData>({ ...useParams(), entriesNumber: paginationModel.pageSize, pageNumber: paginationModel.page }
     );
 
     const dispatch = useAppDispatch();
@@ -108,7 +104,7 @@ const RouteRecordsPage = () => {
             destinationCity: destinationCity?.value,
             departureDate: startDate ? new Date(startDate).getTime() : undefined,
             pageNumber: paginationModel.page,
-            numberEntries: paginationModel.pageSize
+            entriesNumber: paginationModel.pageSize
         })
         getRouteRecords(searchParams);
     }, [paginationModel])

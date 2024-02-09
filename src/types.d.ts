@@ -27,7 +27,7 @@ export interface UserData {
     favouriteCity?: string;
     favouriteCityCount?: number;
     role: string;
-    createdAt?: string;
+    createdAt: string;
 }
 
 export interface RouteRecordSearchData {
@@ -35,7 +35,7 @@ export interface RouteRecordSearchData {
     destinationCity?: string;
     departureDate?: number;
     pageNumber: number;
-    numberEntries: number;
+    entriesNumber: number;
 }
 
 export interface RouteRecordData {
@@ -79,7 +79,7 @@ export interface City {
 
 export interface User extends UserData {
     birthdate?: string;
-    createdAt?: string;
+    createdAt: string;
 }
 
 
