@@ -51,13 +51,17 @@ export interface TicketData extends RouteRecordData {
     id: string;
     passengerId: string;
     seatNo: number;
+    purchaseDate: string;
 }
 
-export interface Route {
-    id: number;
-    departureTime: string;
-    arrivalTime: string;
+export interface RouteData {
+    departureCity: string;
+    destinationCity: string;
     duration: string;
+}
+
+export interface Route extends RouteData {
+    id: number;
 }
 
 export interface RouteRecord extends RouteRecordData {
@@ -91,4 +95,13 @@ export interface IErrorMessage {
             message: string;
         }
     }
+}
+
+
+export interface Notification {
+    id: number;
+    title: string;
+    description: string;
+    date: string;
+    time: string;
 }

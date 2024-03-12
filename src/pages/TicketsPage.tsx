@@ -8,6 +8,7 @@ import { getFormattedRoute } from '../utils/getFormattedRoute'
 import { TicketData } from '../types'
 import PageWrapper from '../components/PageWrapper'
 import TicketsService from '../api/TicketsService'
+import { getFormattedDate } from '../utils/getFormattedDate'
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 60 },
@@ -20,7 +21,7 @@ const columns: GridColDef[] = [
     { field: "departureDate", headerName: "Дата", flex: 0.1 },
     { field: "price", headerName: "Цена", flex: 0.1 },
     { field: "seatNo", headerName: "Место", flex: 0.1 },
-    { field: "purchaseDate", headerName: "Дата покупки", flex: 0.1 },
+    { field: "purchaseDate", headerName: "Дата покупки", headerAlign: "right", align: "right", flex: 0.1 },
 ]
 
 
@@ -38,7 +39,7 @@ const TicketsPage = () => {
             const response = await TicketsService.getTickets();
             const { tickets } = response.data;
 
-            const formattedTickets = tickets.map(ticket => getFormattedRoute<TicketData>(ticket));
+            const formattedTickets = tickets.map(ticket => ({ ...getFormattedRoute<TicketData>(ticket), purchaseDate: getFormattedDate(ticket.purchaseDate) }));
             dispatch(setTickets({ tickets: formattedTickets }));
         } catch (e) {
             console.log(e);
@@ -52,8 +53,8 @@ const TicketsPage = () => {
     }, []);
 
     return (
-        <PageWrapper>
-            <Box display="flex">
+        <Box>
+            <Box display="flex" mb="20px">
                 <Typography variant={"h4"}>Таблица билетов</Typography>
                 <IconButton onClick={() => null}><Update /></IconButton>
             </Box>
@@ -63,13 +64,14 @@ const TicketsPage = () => {
                     rows={tickets || []}
                     checkboxSelection
                     loading={isTicketsLoading}
-                // pagination
-                // paginationModel={paginationModel}
-                // onPaginationModelChange={setPaginationModel}
-                // pageSizeOptions={[15, 25]}
+                    // pagination
+                    // paginationModel={paginationModel}
+                    // onPaginationModelChange={setPaginationModel}
+                    // pageSizeOptions={[15, 25]}
+                    sx={{ p: "0 15px" }}
                 />
             </Card>
-        </PageWrapper>
+        </Box>
     )
 }
 

@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
 import dataReducer from "./dataSlice";
+import notificationsReducer from "./notificationsSlice";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 
 const store = configureStore({
     reducer: {
         user: userReducer,
         data: dataReducer,
+        notifications: notificationsReducer,
     }
 })
 

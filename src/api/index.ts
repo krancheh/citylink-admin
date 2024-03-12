@@ -20,12 +20,12 @@ $api.interceptors.response.use(
         return response;
     },
     (error: IErrorMessage) => {
-        if (error.response.data.message) {
-            const message = error.response.data.message;
-            // const statusCode = error.response.status;
+        if (error.response?.data?.message) {
+            const { message } = error.response.data;
             throw new Error(message);
         }
-        throw new Error("Произошла неизвестная ошибка");
+
+        throw new Error("Неизвестная ошибка");
     })
 
 export const createApiFromPath = (basePath: string) => ({

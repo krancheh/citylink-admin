@@ -1,17 +1,15 @@
 import { User, UserData } from "../types";
+import { getFormattedDate } from "./getFormattedDate";
 
 
 
 
 
 const getFormattedUser = (user: UserData) => {
-    let registrationDate;
-    const date = new Date(user.createdAt);
-    const day = ('0' + date.getDate()).slice(-2);
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    registrationDate = `${day}.${month}.${date.getFullYear()}`;
+    const formattedRegistrationDate = getFormattedDate(user.createdAt);
+    const formattedBDay = user.birthDate ? getFormattedDate(user.birthDate.toString()) : undefined;
 
-    const formattedUser: User = { ...user, createdAt: registrationDate };
+    const formattedUser: User = { ...user, createdAt: formattedRegistrationDate, birthdate: formattedBDay };
     return formattedUser;
 }
 

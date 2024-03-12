@@ -97,12 +97,8 @@ const AuthPage = () => {
     }
 
     const handlePhoneNumberInput: ChangeEventHandler<HTMLInputElement> = (e) => {
-
-        if (/[a-zA-Zа-яА-Я]/.test(e.target.value)) {
-            setPhoneNumber("");
-            return;
-        }
         let inputValue = e.target.value.replace(/\D/g, '');
+
         if (inputValue.length > 0) {
             if (inputValue.length === 1 && inputValue !== "7") {
                 inputValue = "7" + inputValue[0];
@@ -111,8 +107,6 @@ const AuthPage = () => {
                 inputValue.slice(4, 7) + (inputValue.length > 7 ? ' - ' : "") +
                 inputValue.slice(7, 9) + (inputValue.length > 9 ? ' - ' : "") +
                 inputValue.slice(9, 11);
-
-            console.log(inputValue.length);
 
             setPhoneNumber(formattedValue);
         }

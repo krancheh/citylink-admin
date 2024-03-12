@@ -39,7 +39,7 @@ const RequireAuth = () => {
                     navigate("/login");
                 })
         }
-    }, [token, dispatch, navigate])
+    }, [dispatch, navigate])
 
     return token ? <Outlet /> : null
 };

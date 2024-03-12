@@ -11,10 +11,6 @@ import { Button } from '@mui/material';
 import CustomModal from '../components/CustomModal';
 
 
-const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 60 },
-    { field: "cityName", headerName: "Город", flex: 1 },
-]
 
 const CitiesPage = () => {
     const [isCitiesLoading, setIsCitiesLoading] = useState(false);
@@ -23,6 +19,13 @@ const CitiesPage = () => {
     const cities = useAppSelector(selectCities);
     const newCityInputRef = useRef<HTMLInputElement | null>(null);
     const [newCityInputError, setNewCityInputError] = useState("");
+
+    const cityNameValidation = /^[а-яА-Я]+(?:-[а-яА-Я]+)*$/; // регулярное выражение для названия города
+
+    const columns: GridColDef[] = [
+        { field: "id", headerName: "ID", width: 60 },
+        { field: "cityName", headerName: "Город", flex: 1 },
+    ]
 
     const getCities = async () => {
         setIsCitiesLoading(true);
@@ -66,8 +69,12 @@ const CitiesPage = () => {
         }
     }
 
-    const handleNewCityInputChange: ChangeEventHandler<HTMLInputElement> = () => {
+    const handleNewCityInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         setNewCityInputError("");
+
+        if (e.target.value && !cityNameValidation.test(e.target.value)) {
+            setNewCityInputError("Некорректное название города");
+        }
     }
 
     return (
@@ -84,9 +91,11 @@ const CitiesPage = () => {
                         checkboxSelection
                         loading={isCitiesLoading}
                         slots={{
-                            footer: () => <CustomDataGridFooter>
-                                <Button variant='outlined' size='small' onClick={() => setIsModalOpen(true)}>Добавить город</Button>
-                            </CustomDataGridFooter>
+                            footer: () => (
+                                <CustomDataGridFooter>
+                                    <Button variant='outlined' size='small' sx={{ lineHeight: { sm: "25px", xs: "13px" } }} onClick={() => setIsModalOpen(true)}>Добавить город</Button>
+                                </CustomDataGridFooter>
+                            )
                         }}
                     />
                 </Card>
@@ -96,7 +105,7 @@ const CitiesPage = () => {
                 title='Добавить город'
                 description='Введите название города'
                 open={isModalOpen}
-                onClose={handleCloseModal}
+                closeHandler={handleCloseModal}
             >
                 <form onSubmit={handleCreateCity}>
                     <TextField

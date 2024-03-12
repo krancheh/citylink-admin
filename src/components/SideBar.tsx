@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import {
     Box,
     Divider,
@@ -8,9 +8,10 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    Toolbar, Typography
+    Toolbar,
+    Typography
 } from "@mui/material";
-import { DrawerStatusProps } from "./Layout";
+import {DrawerStatusProps} from "./Layout";
 import {
     ConfirmationNumberOutlined,
     EventNoteOutlined,
@@ -18,11 +19,16 @@ import {
     PersonSearchOutlined,
     RouteOutlined
 } from "@mui/icons-material";
-import { useLocation } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import CustomLink from "./CustomLink";
+import {Path} from "../utils/constants";
 
-interface IconsType {
-    [key: string]: React.ReactNode;
+
+interface SidebarRoute {
+    id: number;
+    title: string;
+    path: string;
+    icon: ReactNode;
 }
 
 const SideBar: React.FC<DrawerStatusProps> = (props) => {
@@ -33,15 +39,15 @@ const SideBar: React.FC<DrawerStatusProps> = (props) => {
         closeDrawer?.();
     }, [location])
 
-    const icons: IconsType = {
-        "Текущие рейсы": <EventNoteOutlined />,
-        "Маршруты": <RouteOutlined />,
-        "Города": <LocationCityOutlined />,
-        "Купленные билеты": <ConfirmationNumberOutlined />,
-        "Пользователи": <PersonSearchOutlined />,
-    }
 
-    const pages = ["/route-records", "/routes", "/cities", "/tickets", "/users"]
+
+    const sideBarRoutes: SidebarRoute[] = [
+        { id: 1, title: "Текущие рейсы", path: Path.ROUTE_RECORDS, icon: <EventNoteOutlined /> },
+        { id: 2, title: "Маршруты", path: Path.ROUTES, icon: <RouteOutlined /> },
+        { id: 3, title: "Города", path: Path.CITIES, icon: <LocationCityOutlined /> },
+        { id: 4, title: "Купленные билеты", path: Path.TICKETS, icon: <ConfirmationNumberOutlined /> },
+        { id: 5, title: "Пользователи", path: Path.USERS, icon: <PersonSearchOutlined /> },
+    ]
 
     const drawer = (
         <div style={{ width: "250px" }}>
@@ -50,12 +56,12 @@ const SideBar: React.FC<DrawerStatusProps> = (props) => {
             </Toolbar>
             <Divider />
             <List>
-                {Object.keys(icons).map((text, index) => (
-                    <CustomLink key={text} to={pages[index]} onClick={closeDrawer}>
+                {sideBarRoutes.map((sidebarRoute) => (
+                    <CustomLink key={sidebarRoute.id} to={sidebarRoute.path} onClick={closeDrawer}>
                         <ListItem disablePadding>
-                            <ListItemButton selected={location.pathname === pages[index]}>
-                                <ListItemIcon sx={{ marginRight: "-20px" }}>{icons[text]}</ListItemIcon>
-                                <ListItemText>{text}</ListItemText>
+                            <ListItemButton selected={location.pathname === sidebarRoute.path}>
+                                <ListItemIcon sx={{ marginRight: "-20px" }}>{sidebarRoute.icon}</ListItemIcon>
+                                <ListItemText>{sidebarRoute.title}</ListItemText>
                             </ListItemButton>
                         </ListItem>
                     </CustomLink>

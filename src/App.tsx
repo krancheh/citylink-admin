@@ -9,6 +9,7 @@ import CitiesPage from './pages/CitiesPage';
 import ErrorPage from './pages/ErrorPage';
 import UsersPage from './pages/UsersPage';
 import TicketsPage from './pages/TicketsPage';
+import HomePage from './pages/HomePage';
 
 function App() {
 
@@ -16,7 +17,8 @@ function App() {
         <Route errorElement={<ErrorPage />}>
             {/* private routes */}
             <Route element={<RequireAuth />}>
-                <Route path="/" element={<Layout />}>
+                <Route element={<Layout />}>
+                    <Route path='/' element={<HomePage />} />
                     <Route path="route-records" element={<RouteRecordsPage />} />
                     <Route path="routes" element={<RoutesPage />} />
                     <Route path="cities" element={<CitiesPage />} />

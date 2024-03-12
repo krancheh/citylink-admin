@@ -9,20 +9,21 @@ import { selectUsers, setUsers } from '../store/dataSlice';
 import getFormattedUser from '../utils/getFormattedUser';
 import { User } from '../types';
 
-const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 60 },
-    { field: "lastName", headerName: "Фамилия", flex: 0.1, minWidth: 120 },
-    { field: "firstName", headerName: "Имя", flex: 0.1, minWidth: 120 },
-    { field: "middleName", headerName: "Отчество", flex: 0.1, minWidth: 120 },
-    { field: "phoneNumber", headerName: "Номер телефона", flex: 0.1, minWidth: 120 },
-    { field: "email", headerName: "Эл. почта", flex: 0.1, minWidth: 90 },
-    { field: "gender", headerName: "Пол", width: 60 },
-    { field: "role", headerName: "Роль", width: 90 },
-    { field: "createdAt", headerName: "Дата регистрации", flex: 0.1, minWidth: 200 },
-]
 
 
 const UsersPage = () => {
+    const columns: GridColDef[] = [
+        { field: "id", headerName: "ID", width: 60 },
+        { field: "lastName", headerName: "Фамилия", flex: 0.1, minWidth: 120 },
+        { field: "firstName", headerName: "Имя", flex: 0.1, minWidth: 120 },
+        { field: "middleName", headerName: "Отчество", flex: 0.1, minWidth: 120 },
+        { field: "phoneNumber", headerName: "Номер телефона", flex: 0.1, minWidth: 120 },
+        { field: "email", headerName: "Эл. почта", flex: 0.1, minWidth: 90 },
+        { field: "gender", headerName: "Пол", width: 60 },
+        { field: "role", headerName: "Роль", width: 90 },
+        { field: "createdAt", headerName: "Дата регистрации", headerAlign: "right", align: "right", flex: 0.1, minWidth: 200 },
+    ]
+
     const [isUsersLoading, setIsUsersLoading] = useState(false);
     const users = useAppSelector(selectUsers);
     const dispatch = useAppDispatch();
@@ -49,9 +50,9 @@ const UsersPage = () => {
 
     return (
         <PageWrapper>
-            <Box display="flex">
+            <Box display="flex" mb="20px">
                 <Typography variant={"h4"}>Таблица пользователей</Typography>
-                <IconButton onClick={() => null}><Update /></IconButton>
+                <IconButton onClick={() => getUsers()}><Update /></IconButton>
             </Box>
             <Card>
                 <DataGrid
@@ -59,6 +60,7 @@ const UsersPage = () => {
                     rows={users || []}
                     checkboxSelection
                     loading={isUsersLoading}
+                    sx={{ p: "0 15px" }}
                 />
             </Card>
         </PageWrapper>

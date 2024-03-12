@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
-import { Box, Button, Card, IconButton, Typography } from "@mui/material";
+import {Box, Button, Card, CircularProgress, IconButton, Typography} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { RouteRecord, RouteRecordSearchData } from "../types";
 import RoutesService from "../api/RoutesService";
@@ -61,8 +61,8 @@ const RouteRecordsPage = () => {
         { field: "departureTime", headerName: "Время отправления", flex: 0.5, minWidth: 100 },
         { field: "arrivalTime", headerName: "Время прибытия", flex: 0.5, minWidth: 100 },
         { field: "duration", headerName: "Время в пути", hideSortIcons: true, maxWidth: 200, minWidth: 120 },
-        { field: "departureDate", headerName: "Дата", flex: 0.5, maxWidth: 150, minWidth: 100 },
         { field: "price", headerName: "Цена", flex: 0.5, maxWidth: 150, minWidth: 70 },
+        { field: "departureDate", headerName: "Дата", headerAlign: "right", align: "right", flex: 0.4, maxWidth: 150, minWidth: 100 },
     ]
 
     const getRouteRecords = async (searchData: RouteRecordSearchData) => {
@@ -72,7 +72,8 @@ const RouteRecordsPage = () => {
             const { data: routeRecordsData } = await RoutesService.getRouteRecords(searchData);
             const formattedRouteRecords: RouteRecord[] = routeRecordsData.routes.map((routeRecordData) => getFormattedRoute(routeRecordData));
             const { countRecords } = routeRecordsData;
-            console.log(countRecords);
+            console.log(routeRecordsData);
+
 
             setRowCount(countRecords);
 
@@ -84,43 +85,36 @@ const RouteRecordsPage = () => {
         }
     }
 
-
-    // --- onMount effect
-    useEffect(() => {
-        if (routeRecords.length === 0) {
-            getRouteRecords(searchParams);
-        }
-    }, [])
-
-    useEffect(() => {
-        setRowCount((prevRowCountState) =>
-            rowCount !== undefined ? rowCount : prevRowCountState,
-        );
-    }, [rowCount, setRowCount]);
-
-    useEffect(() => {
-        setSearchParams({
-            departureCity: departureCity?.value,
-            destinationCity: destinationCity?.value,
-            departureDate: startDate ? new Date(startDate).getTime() : undefined,
-            pageNumber: paginationModel.page,
-            entriesNumber: paginationModel.pageSize
-        })
-        getRouteRecords(searchParams);
-    }, [paginationModel])
-
-
-    const memoGetCities = useCallback(getCities, []);
-
-
     const handleSearch = () => {
         setPaginationModel((prevState) => ({
             pageSize: prevState.pageSize,
             page: 0,
         }))
-
-        getRouteRecords(searchParams);
     }
+
+
+    useEffect(() => {
+        const newParams = {
+            departureCity: departureCity?.value,
+            destinationCity: destinationCity?.value,
+            departureDate: startDate ? new Date(startDate).getTime() : undefined,
+            pageNumber: paginationModel.page,
+            entriesNumber: paginationModel.pageSize
+        }
+
+        setSearchParams(newParams);
+    }, [paginationModel])
+
+
+
+    useEffect(() => {
+        getRouteRecords(searchParams);
+    }, [searchParams])
+
+    const memoGetCities = useCallback(getCities, []);
+
+
+
 
 
     const InputWrapper: React.FC<{ children: ReactNode | ReactNode[] }> = ({ children }) => {
@@ -135,9 +129,21 @@ const RouteRecordsPage = () => {
                 <Typography variant={"h4"}>Таблица рейсов</Typography>
                 <IconButton onClick={() => handleSearch()}><Update /></IconButton>
             </Box>
-            <Box display="flex" gap="10px" p="20px" flexWrap="wrap" sx={{ flexDirection: { xs: "column", sm: "row" } }}>
+            <Box
+                display="flex"
+                gap="10px"
+                p="20px"
+                flexWrap="wrap"
+                sx={{ flexDirection: { xs: "column", sm: "row" } }}
+            >
                 <InputWrapper>
-                    <CustomAutocomplete id="departureCity" fetchNewOptions={memoGetCities} label="Город отправления" value={departureCity} setValue={setDepartureCity} />
+                    <CustomAutocomplete
+                        id="departureCity"
+                        fetchNewOptions={memoGetCities}
+                        label="Город отправления"
+                        value={departureCity}
+                        setValue={setDepartureCity}
+                    />
                 </InputWrapper>
                 <IconButton onClick={() => {
                     const temp = departureCity;
@@ -147,13 +153,29 @@ const RouteRecordsPage = () => {
                     <SwapHorizOutlined />
                 </IconButton>
                 <InputWrapper>
-                    <CustomAutocomplete id="destinationCity" fetchNewOptions={memoGetCities} label="Город отправления" value={destinationCity} setValue={setDestinationCity} />
+                    <CustomAutocomplete
+                        id="destinationCity"
+                        fetchNewOptions={memoGetCities}
+                        label="Город прибытия"
+                        value={destinationCity}
+                        setValue={setDestinationCity}
+                    />
                 </InputWrapper>
                 <InputWrapper>
-                    <DatePicker label="От" slotProps={{ textField: { size: 'small', fullWidth: true } }} value={startDate} onChange={(value) => setStartDate(value)} />
+                    <DatePicker
+                        label="От"
+                        slotProps={{ textField: { size: 'small', fullWidth: true } }}
+                        value={startDate}
+                        onChange={(value) => setStartDate(value)}
+                    />
                 </InputWrapper>
                 <InputWrapper>
-                    <DatePicker label="До" slotProps={{ textField: { size: 'small', fullWidth: true } }} value={endDate} onChange={(value) => setEndDate(value)} />
+                    <DatePicker
+                        label="До"
+                        slotProps={{ textField: { size: 'small', fullWidth: true } }}
+                        value={endDate}
+                        onChange={(value) => setEndDate(value)}
+                    />
                 </InputWrapper>
                 <Button variant={"contained"} onClick={handleSearch}>Применить</Button>
             </Box>
@@ -169,7 +191,8 @@ const RouteRecordsPage = () => {
                     pageSizeOptions={[15, 25]}
                     paginationMode='server'
                     rowCount={rowCount}
-                    slots={{ noRowsOverlay: isRoutesLoading ? () => <p>Загрузка</p> : CustomNoRowsMessage }}
+                    slots={{ noRowsOverlay: isRoutesLoading ? () => null : CustomNoRowsMessage }}
+                    sx={{ p: "0 15px" }}
                 />
             </Card>
         </PageWrapper>
