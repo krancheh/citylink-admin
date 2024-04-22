@@ -4,19 +4,24 @@ import { createApiFromPath } from "./index";
 export interface AnalyticsParams {
     startDate?: number;
     endDate?: number;
-    filter?: "byMonth" | "byDay";
+    filter?: Filter;
 }
 
-export interface AnalyticsTickets { date: string, ticketsAmount: string };
-export interface AnalyticsRevenue { date: string, earnedSum: string };
+export type Filter = "byMonth" | "byDay";
+
+export type AnalyticsType = {
+    x: string;
+    y: string;
+}
+
 
 class AnalyticsService {
     static analyticsApi = createApiFromPath("/analytics");
 
-    static async getTicketsSold(params: AnalyticsParams): Promise<{ data: { tickets: AnalyticsTickets[] } }> {
+    static async getTicketsSold(params: AnalyticsParams): Promise<{ data: AnalyticsType[] }> {
         return this.analyticsApi.get("getTicketsSold", { params });
     }
-    static async getRevenue(params: AnalyticsParams): Promise<{ data: { tickets: AnalyticsRevenue[] } }> {
+    static async getRevenue(params: AnalyticsParams): Promise<{ data: AnalyticsType[] }> {
         return this.analyticsApi.get("getRevenue", { params });
     }
 }

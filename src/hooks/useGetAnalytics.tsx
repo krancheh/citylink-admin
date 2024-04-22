@@ -1,42 +1,36 @@
 import { useEffect, useState } from "react";
-import AnalyticsService, { AnalyticsParams, AnalyticsRevenue, AnalyticsTickets } from "../api/AnalyticsService";
+import AnalyticsService, { AnalyticsParams, AnalyticsType } from "../api/AnalyticsService";
 
 
-interface IProps {
-    params: AnalyticsParams;
-    type: "revenue" | "tickets";
-}
-
-const fetchAnalyticsMap = {
-    revenue: AnalyticsService.getRevenue.bind(AnalyticsService),
+const fetchAnalytics = {
     tickets: AnalyticsService.getTicketsSold.bind(AnalyticsService),
-}
+    revenue: AnalyticsService.getRevenue.bind(AnalyticsService)
+};
 
-const useGetAnalytics = (props: IProps) => {
-    const { params, type } = props;
+type Type = "tickets" | "revenue";
 
-    const [data, setData] = useState<AnalyticsTickets[] | AnalyticsRevenue[]>([]);
+const useGetAnalytics = (type: Type, params: AnalyticsParams): [AnalyticsType[], boolean] => {
+    const [data, setData] = useState<AnalyticsType[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-
-        const fetchAnalytics = async () => {
+        const fetchData = async () => {
+            setIsLoading(true);
             try {
-                setIsLoading(true);
-
-                const result = await fetchAnalyticsMap[type](params);
-                setData(result.data.tickets);
-            } catch (e) {
-                console.log(e);
+                const response = await fetchAnalytics[type](params);
+                setData(response.data);
+            } catch (error) {
+                console.error("Ошибка получения аналитики: ", error);
             } finally {
                 setIsLoading(false);
             }
-        }
+        };
 
-        fetchAnalytics();
-    }, [params, type])
+        fetchData();
 
+    }, [type, params]);
 
     return [data, isLoading];
-}
+};
+
 export default useGetAnalytics;

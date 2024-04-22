@@ -55,8 +55,8 @@ export interface TicketData extends RouteRecordData {
 }
 
 export interface RouteData {
-    departureCity: string;
-    destinationCity: string;
+    departureCityId: number;
+    destinationCityId: number;
     duration: string;
 }
 
