@@ -33,6 +33,7 @@ export const createApiFromPath = (basePath: string) => ({
     post: (path: string, ...args: any[]) => $api.post(`${basePath}/${path}`, ...args),
     put: (path: string, ...args: any[]) => $api.put(`${basePath}/${path}`, ...args),
     delete: (path: string, ...args: any[]) => $api.delete(`${basePath}/${path}`, ...args),
+    patch: (path: string, ...args: any[]) => $api.patch(`${basePath}/${path}`, ...args),
 })
 
 export default $api;
