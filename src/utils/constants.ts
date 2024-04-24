@@ -10,4 +10,20 @@ export enum Path {
     USERS = "/users",
     CITIES = "/cities",
     TICKETS = "/tickets",
+    BUSES = "/buses",
+    STAFF = "/staff"
+}
+
+
+export const titleMap: Record<Path, string> = {
+    [Path.LOGIN]: "Вход",
+    [Path.SIGNUP]: "Регистрация",
+    [Path.MAIN]: "Главная",
+    [Path.ROUTE_RECORDS]: "Текущие рейсы",
+    [Path.ROUTES]: "Маршруты",
+    [Path.USERS]: "Пользователи",
+    [Path.CITIES]: "Города",
+    [Path.TICKETS]: "Забронированные билеты",
+    [Path.BUSES]: "Автобусы",
+    [Path.STAFF]: "Сотрудники",
 }
