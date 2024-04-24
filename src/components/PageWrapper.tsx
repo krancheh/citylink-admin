@@ -8,7 +8,7 @@ interface IProps {
 const PageWrapper: React.FC<IProps> = ({ children }) => {
     return (
         <Box
-            maxWidth="1200px"
+            // maxWidth="1200px"
             m="0 auto"
         >
             {children}
