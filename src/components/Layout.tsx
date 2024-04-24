@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Header from "./Header";
 import SideBar from "./SideBar";
-import {Outlet} from "react-router-dom";
-import {Box, Toolbar} from "@mui/material";
+import { Outlet } from "react-router-dom";
+import { Box, Toolbar } from "@mui/material";
 
 export interface DrawerStatusProps {
     isDrawerOpen?: boolean;
@@ -23,11 +23,11 @@ const Layout = () => {
 
     return (
         <>
-            <Header isDrawerOpen={isDrawerOpen} openDrawer={openDrawer}/>
-            <SideBar isDrawerOpen={isDrawerOpen} closeDrawer={closeDrawer}/>
-            <Box component="main" sx={{ml: {sm: "250px", xs: "none"}}} p={3}>
-                <Toolbar/>
-                <Outlet/>
+            <Header isDrawerOpen={isDrawerOpen} openDrawer={openDrawer} />
+            <SideBar isDrawerOpen={isDrawerOpen} closeDrawer={closeDrawer} />
+            <Box component="main" sx={{ ml: { sm: "250px", xs: "none" } }} p={{ sm: 3, xs: 1 }}>
+                <Toolbar />
+                <Outlet />
             </Box>
         </>
     );
