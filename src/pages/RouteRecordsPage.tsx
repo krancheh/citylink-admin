@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
-import { Box, Button, Card, CircularProgress, IconButton, Typography } from "@mui/material";
+import { Box, Button, Card, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { RouteRecord, RouteRecordSearchData } from "../types";
 import RoutesService from "../api/RoutesService";
