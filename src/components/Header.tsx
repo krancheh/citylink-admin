@@ -7,7 +7,9 @@ import { useAppDispatch, useAppSelector } from "../store";
 import { resetUser, selectFirstName } from "../store/userSlice";
 import { NotificationsOutlined } from '@mui/icons-material';
 import { addNotification } from '../store/notificationsSlice';
+import { titleMap } from '../utils/constants';
 
+type PathType = keyof typeof titleMap;
 
 const Header: React.FC<DrawerStatusProps> = (props) => {
     const { openDrawer } = props;
@@ -19,13 +21,6 @@ const Header: React.FC<DrawerStatusProps> = (props) => {
     const location = useLocation();
     const firstName = useAppSelector(selectFirstName);
     const dispatch = useAppDispatch();
-
-    const titleMap: { [key: string]: string } = {
-        "/route-records": "Текущие рейсы",
-        "/routes": "Маршруты",
-        "/cities": "Города",
-        "/tickets": "Купленные билеты",
-    }
 
     const handleOpenUserMenu: MouseEventHandler<HTMLDivElement> = (e) => {
         setUserMenuAnchor(e.currentTarget);
@@ -84,6 +79,8 @@ const Header: React.FC<DrawerStatusProps> = (props) => {
         )
     }
 
+
+
     return (
         <AppBar sx={{ pl: { sm: "250px", xs: "none" } }}>
             <Toolbar>
@@ -91,7 +88,7 @@ const Header: React.FC<DrawerStatusProps> = (props) => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    {titleMap[location.pathname] || "Панель управления"}
+                    {titleMap[location.pathname as PathType] || "Панель управления"}
                 </Typography>
                 <IconButton onClick={handleOpenNotificationsMenu}>
                     <NotificationsOutlined color='info' />
