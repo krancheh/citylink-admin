@@ -6,22 +6,22 @@ import { useAppDispatch, useAppSelector } from '../store'
 import { selectTickets, setTickets } from '../store/dataSlice'
 import { getFormattedRoute } from '../utils/getFormattedRoute'
 import { TicketData } from '../types'
-import PageWrapper from '../components/PageWrapper'
 import TicketsService from '../api/TicketsService'
 import { getFormattedDate } from '../utils/getFormattedDate'
+import CustomNoRowsMessage from '../components/CustomNoRowsMessage'
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 60 },
-    { field: "passengerId", headerName: "Пассажир", width: 60 },
-    { field: "departureCity", headerName: "Город отправления", flex: 0.2 },
-    { field: "destinationCity", headerName: "Город прибытия", flex: 0.2 },
-    { field: "departureTime", headerName: "Время отправления", flex: 0.1 },
-    { field: "arrivalTime", headerName: "Время прибытия", flex: 0.1 },
-    { field: "duration", headerName: "Время в пути", flex: 0.1 },
-    { field: "departureDate", headerName: "Дата", flex: 0.1 },
-    { field: "price", headerName: "Цена", flex: 0.1 },
-    { field: "seatNo", headerName: "Место", flex: 0.1 },
-    { field: "purchaseDate", headerName: "Дата покупки", headerAlign: "right", align: "right", flex: 0.1 },
+    { field: "passengerId", headerName: "Пассажир", width: 100 },
+    { field: "departureCity", headerName: "Город отправления", flex: 0.2, minWidth: 180 },
+    { field: "destinationCity", headerName: "Город прибытия", flex: 0.2, minWidth: 180 },
+    { field: "departureTime", headerName: "Время отправления", flex: 0.1, minWidth: 150 },
+    { field: "arrivalTime", headerName: "Время прибытия", flex: 0.1, minWidth: 150 },
+    { field: "duration", headerName: "Время в пути", flex: 0.1, minWidth: 130 },
+    { field: "departureDate", headerName: "Дата", flex: 0.1, minWidth: 150 },
+    { field: "price", headerName: "Цена", flex: 0.1, minWidth: 150 },
+    { field: "seatNo", headerName: "Место", flex: 0.1, minWidth: 150 },
+    { field: "purchaseDate", headerName: "Дата покупки", headerAlign: "right", align: "right", flex: 0.1, minWidth: 180 },
 ]
 
 
@@ -58,17 +58,18 @@ const TicketsPage = () => {
                 <Typography variant={"h4"}>Таблица билетов</Typography>
                 <IconButton onClick={() => null}><Update /></IconButton>
             </Box>
-            <Card>
+            <Card >
                 <DataGrid
+                    autoHeight
                     columns={columns}
                     rows={tickets || []}
-                    checkboxSelection
                     loading={isTicketsLoading}
                     // pagination
                     // paginationModel={paginationModel}
                     // onPaginationModelChange={setPaginationModel}
                     // pageSizeOptions={[15, 25]}
-                    sx={{ p: "0 15px" }}
+                    sx={{ p: "0 15px", '--DataGrid-overlayHeight': '400px' }}
+                    slots={{ noRowsOverlay: isTicketsLoading ? () => null : CustomNoRowsMessage }}
                 />
             </Card>
         </Box>

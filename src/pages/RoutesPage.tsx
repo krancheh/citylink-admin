@@ -24,6 +24,7 @@ const RoutesPage = () => {
     const [departureCity, setDepartureCity] = useState<OptionType | null>(null);
     const [destinationCity, setDestinationCity] = useState<OptionType | null>(null);
     const [newRouteSuccess, setNewRouteSuccess] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
     const [duration, setDuration] = useState<number>(1);
     const [error, setError] = useState("");
     const [isRoutesFetching, setIsRoutesFetching] = useState(false);
@@ -61,9 +62,10 @@ const RoutesPage = () => {
     const createRoute = async () => {
         try {
             if (departureCity && destinationCity && duration) {
-                const response = await RoutesService.addRoute({ departureCity: departureCity.value, destinationCity: destinationCity.value, duration: duration.toString() });
+                const response = await RoutesService.addRoute({ departureCityId: +departureCity.id, destinationCityId: +destinationCity.id, duration: duration.toString() });
                 const { route } = response.data;
                 dispatch(setRoutes({ routes: [...routes, route] }));
+
 
                 return route;
             }
@@ -100,7 +102,6 @@ const RoutesPage = () => {
                     setNewRouteSuccess(true);
 
                     setTimeout(() => {
-                        handleCloseModal();
                         setNewRouteSuccess(false);
                     }, 5000)
                 }
@@ -138,6 +139,9 @@ const RoutesPage = () => {
         if (!routes.length) getRoutes();
     }, [])
 
+    useEffect(() => {
+        setSuccessMessage(`${departureCity?.value} - ${destinationCity?.value}`);
+    }, [newRouteSuccess])
 
 
     return (
@@ -147,8 +151,11 @@ const RoutesPage = () => {
                 <IconButton onClick={() => getRoutes()}><Update /></IconButton>
             </Box>
             <Box display="flex" flexDirection="row">
-                <Card>
+                <Card
+                    sx={{ maxWidth: "800px", width: "100%" }}
+                >
                     <DataGrid
+                        autoHeight
                         columns={columns}
                         rows={routes || []}
                         checkboxSelection
@@ -160,6 +167,7 @@ const RoutesPage = () => {
                                 </CustomDataGridFooter>
                             )
                         }}
+                        sx={{ p: "0 15px", '--DataGrid-overlayHeight': '400px' }}
                     />
                 </Card>
             </Box>
@@ -203,6 +211,9 @@ const RoutesPage = () => {
                         />
                         <Collapse in={!!error}>
                             <Alert severity='error'>{error}</Alert>
+                        </Collapse>
+                        <Collapse in={!error && newRouteSuccess && !!departureCity?.value && !!destinationCity?.value}>
+                            <Alert severity='success'>Маршрут <b>{successMessage}</b> создан</Alert>
                         </Collapse>
                         <Box>
                             <Button sx={{ float: "right", ml: "20px" }} variant='contained' disabled={!!error} type='submit'>Добавить</Button>

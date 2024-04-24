@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
-import {Box, Button, Card, CircularProgress, IconButton, Typography} from "@mui/material";
+import { Box, Button, Card, CircularProgress, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { RouteRecord, RouteRecordSearchData } from "../types";
 import RoutesService from "../api/RoutesService";
@@ -179,8 +179,9 @@ const RouteRecordsPage = () => {
                 </InputWrapper>
                 <Button variant={"contained"} onClick={handleSearch}>Применить</Button>
             </Box>
-            <Card sx={{ height: "500px" }}>
+            <Card >
                 <DataGrid
+                    autoHeight
                     columns={columns}
                     rows={routeRecords || []}
                     checkboxSelection
@@ -192,7 +193,7 @@ const RouteRecordsPage = () => {
                     paginationMode='server'
                     rowCount={rowCount}
                     slots={{ noRowsOverlay: isRoutesLoading ? () => null : CustomNoRowsMessage }}
-                    sx={{ p: "0 15px" }}
+                    sx={{ p: "0 15px", '--DataGrid-overlayHeight': '400px' }}
                 />
             </Card>
         </PageWrapper>
