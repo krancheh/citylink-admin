@@ -8,7 +8,7 @@ export type OptionType = {
     value: string;
 }
 
-interface TProps {
+interface IProps {
     id: string;
     label: string;
     value: OptionType | null;
@@ -18,23 +18,24 @@ interface TProps {
 
 
 
-const CustomAutocomplete: React.FC<TProps> = ({ id, label, value, setValue, fetchNewOptions }) => {
+const ServerSideAutocomplete = (props: IProps) => {
+    const { id, label, value, setValue, fetchNewOptions } = props;
     const [inputValue, setInputValue] = useState("");
     const [options, setOptions] = useState<readonly OptionType[] | readonly []>([]);
 
 
 
-    const handleFetchOptions = (param: string) => {
-        fetchNewOptions(param)
-            .then((newOptions) => {
-                setOptions(newOptions);
-            })
-            .catch(e => {
-                console.log(e);
-            })
+    const handleFetchOptions = async (param: string) => {
+        try {
+            const newOptions = await fetchNewOptions(param);
+            setOptions(newOptions);
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     const debouncedFetchOptions = createDebounce(handleFetchOptions, 350);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const memoDebouncedFetchOptions = useCallback(debouncedFetchOptions, []);
 
 
@@ -77,4 +78,4 @@ const CustomAutocomplete: React.FC<TProps> = ({ id, label, value, setValue, fetc
     );
 };
 
-export default CustomAutocomplete;
+export default ServerSideAutocomplete;

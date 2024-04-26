@@ -8,7 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { getFormattedRoute } from "../utils/getFormattedRoute";
 import { useAppDispatch, useAppSelector } from "../store";
 import { selectRouteRecords, setRouteRecords } from "../store/dataSlice";
-import CustomAutocomplete, { OptionType } from "../components/common/CustomAutocomplete";
+import CustomAutocomplete, { OptionType } from "../components/common/ServerSideAutocomplete";
 import { SwapHorizOutlined, Update } from '@mui/icons-material';
 import PageWrapper from '../components/containers/PageWrapper';
 import CustomNoRowsMessage from '../components/common/CustomNoRowsMessage';

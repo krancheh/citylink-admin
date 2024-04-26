@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, useState } from 'react';
 import { AppBar, Avatar, Box, CircularProgress, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { DrawerStatusProps } from "../Layout";
+import { DrawerStatusProps } from "../containers/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { resetUser, selectFirstName } from "../../store/userSlice";

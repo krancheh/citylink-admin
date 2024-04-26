@@ -8,7 +8,7 @@ import { selectCities, selectRoutes, setCities, setRoutes } from '../store/dataS
 import PageWrapper from '../components/containers/PageWrapper';
 import CustomDataGridFooter from '../components/common/CustomDataGridFooter';
 import CustomModal from '../components/common/CustomModal';
-import { OptionType } from '../components/common/CustomAutocomplete';
+import { OptionType } from '../components/common/ServerSideAutocomplete';
 
 
 const RoutesPage = () => {

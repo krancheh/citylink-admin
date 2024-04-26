@@ -39,7 +39,7 @@ const SideBar: React.FC<DrawerStatusProps> = (props) => {
 
     useEffect(() => {
         closeDrawer?.();
-    }, [location])
+    }, [location, closeDrawer])
 
 
 
