@@ -126,6 +126,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+/.idea
 /.idea/citylink-admin.iml
 /.idea/misc.xml
 /.idea/modules.xml
