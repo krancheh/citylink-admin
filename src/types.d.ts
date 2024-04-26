@@ -93,7 +93,7 @@ export interface Employee {
     middleName?: string;
     gender?: boolean | string;
     position?: `${Position}`;
-    phoneNumber?: number;
+    phoneNumber?: string;
     birthDate?: string;
     documentNumber: string;
 }
