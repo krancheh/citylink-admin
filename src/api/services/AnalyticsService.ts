@@ -1,4 +1,4 @@
-import { createApiFromPath } from "./index";
+import { createApiFromPath } from "../index";
 
 
 export interface AnalyticsParams {

@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect} from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import {
     Box,
     Divider,
@@ -11,17 +11,19 @@ import {
     Toolbar,
     Typography
 } from "@mui/material";
-import {DrawerStatusProps} from "./Layout";
+import { DrawerStatusProps } from "../containers/Layout";
 import {
+    AssignmentIndOutlined,
     ConfirmationNumberOutlined,
+    DirectionsBusFilledOutlined,
     EventNoteOutlined,
     LocationCityOutlined,
     PersonSearchOutlined,
     RouteOutlined
 } from "@mui/icons-material";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import CustomLink from "./CustomLink";
-import {Path} from "../utils/constants";
+import { Path } from "../../utils/constants";
 
 
 interface SidebarRoute {
@@ -45,8 +47,10 @@ const SideBar: React.FC<DrawerStatusProps> = (props) => {
         { id: 1, title: "Текущие рейсы", path: Path.ROUTE_RECORDS, icon: <EventNoteOutlined /> },
         { id: 2, title: "Маршруты", path: Path.ROUTES, icon: <RouteOutlined /> },
         { id: 3, title: "Города", path: Path.CITIES, icon: <LocationCityOutlined /> },
-        { id: 4, title: "Купленные билеты", path: Path.TICKETS, icon: <ConfirmationNumberOutlined /> },
+        { id: 4, title: "Забронированные билеты", path: Path.TICKETS, icon: <ConfirmationNumberOutlined /> },
         { id: 5, title: "Пользователи", path: Path.USERS, icon: <PersonSearchOutlined /> },
+        { id: 6, title: "Сотрудники", path: Path.STAFF, icon: <AssignmentIndOutlined /> },
+        { id: 7, title: "Автобусы", path: Path.BUSES, icon: <DirectionsBusFilledOutlined /> },
     ]
 
     const drawer = (

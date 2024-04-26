@@ -1,3 +1,4 @@
+import { Position } from "./utils/constants";
 
 
 export interface AuthData {
@@ -84,6 +85,25 @@ export interface City {
 export interface User extends UserData {
     birthdate?: string;
     createdAt: string;
+}
+
+export interface Employee {
+    firstName: string;
+    lastName: string;
+    middleName?: string;
+    gender?: boolean | string;
+    position?: `${Position}`;
+    phoneNumber?: number;
+    birthDate?: string;
+    documentNumber: string;
+}
+
+export interface Bus {
+    id: number;
+    model: string;
+    regNumber: string;
+    region: string;
+    seatsAmount: number;
 }
 
 

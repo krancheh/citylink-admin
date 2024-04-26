@@ -1,5 +1,5 @@
-import { createApiFromPath } from "./index";
-import { AuthData, TokenData, UserData } from "../types";
+import { createApiFromPath } from "../index";
+import { AuthData, TokenData, UserData } from "../../types";
 
 
 class UserService {

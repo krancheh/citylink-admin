@@ -1,13 +1,13 @@
 import React, { MouseEventHandler, useState } from 'react';
 import { AppBar, Avatar, Box, CircularProgress, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { DrawerStatusProps } from "./Layout";
+import { DrawerStatusProps } from "../Layout";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../store";
-import { resetUser, selectFirstName } from "../store/userSlice";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { resetUser, selectFirstName } from "../../store/userSlice";
 import { NotificationsOutlined } from '@mui/icons-material';
-import { addNotification } from '../store/notificationsSlice';
-import { titleMap } from '../utils/constants';
+import { addNotification } from '../../store/notificationsSlice';
+import { titleMap } from '../../utils/constants';
 
 type PathType = keyof typeof titleMap;
 

@@ -1,8 +1,8 @@
 import { useLayoutEffect } from 'react';
 import { Outlet, useNavigate } from "react-router-dom";
-import UserService from "../api/UserService";
-import { useAppDispatch, useAppSelector } from "../store";
-import { resetUser, selectToken, setUser } from "../store/userSlice";
+import UserService from "../../api/services/UserService";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { resetUser, selectToken, setUser } from "../../store/userSlice";
 
 const RequireAuth = () => {
     const dispatch = useAppDispatch();
@@ -39,7 +39,7 @@ const RequireAuth = () => {
                     navigate("/login");
                 })
         }
-    }, [dispatch, navigate])
+    }, [dispatch, navigate, token])
 
     return token ? <Outlet /> : null
 };

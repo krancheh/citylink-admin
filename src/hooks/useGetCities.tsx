@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { City } from "../types";
-import RoutesService from "../api/RoutesService";
+import RoutesService from "../api/services/RoutesService";
 
 interface IProps {
     cityName: string;

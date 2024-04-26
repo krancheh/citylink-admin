@@ -1,6 +1,6 @@
 import { ErrorOutlined } from '@mui/icons-material'
 import { Box, Button, Typography } from '@mui/material'
-import CustomLink from '../components/CustomLink'
+import CustomLink from '../components/common/CustomLink'
 
 const ErrorPage = () => {
     return (

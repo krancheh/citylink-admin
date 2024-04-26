@@ -6,9 +6,9 @@ import { useAppDispatch, useAppSelector } from '../store'
 import { selectTickets, setTickets } from '../store/dataSlice'
 import { getFormattedRoute } from '../utils/getFormattedRoute'
 import { TicketData } from '../types'
-import TicketsService from '../api/TicketsService'
+import TicketsService from '../api/services/TicketsService'
 import { getFormattedDate } from '../utils/getFormattedDate'
-import CustomNoRowsMessage from '../components/CustomNoRowsMessage'
+import CustomNoRowsMessage from '../components/common/CustomNoRowsMessage'
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 60 },

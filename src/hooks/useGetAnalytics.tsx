@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AnalyticsService, { AnalyticsParams, AnalyticsType } from "../api/AnalyticsService";
+import AnalyticsService, { AnalyticsParams, AnalyticsType } from "../api/services/AnalyticsService";
 
 
 const fetchAnalytics = {

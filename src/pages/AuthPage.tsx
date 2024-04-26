@@ -19,7 +19,7 @@ import {
     VisibilityOffOutlined,
     VisibilityOutlined,
 } from "@mui/icons-material";
-import UserService from "../api/UserService";
+import UserService from "../api/services/UserService";
 import { AuthData } from "../types";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store";

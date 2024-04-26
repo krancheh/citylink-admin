@@ -1,5 +1,5 @@
-import { createApiFromPath } from "./index";
-import { City, Route, RouteData, RouteRecordData, RouteRecordSearchData } from "../types";
+import { createApiFromPath } from "../index";
+import { City, Route, RouteData, RouteRecordData, RouteRecordSearchData } from "../../types";
 
 
 

@@ -1,9 +1,9 @@
-import PageWrapper from "../components/PageWrapper"
+import PageWrapper from "../components/containers/PageWrapper"
 import { Typography } from "@mui/material"
 import useGetAnalytics from "../hooks/useGetAnalytics"
 import { useEffect, useState } from "react"
-import { AnalyticsParams } from "../api/AnalyticsService"
-import AnalyticsChart from "../components/AnalyticsChart"
+import { AnalyticsParams } from "../api/services/AnalyticsService"
+import AnalyticsChart from "../components/common/AnalyticsChart"
 
 const HomePage = () => {
     const [analyticsParamsTickets, setAnalyticsParamsTickets] = useState<AnalyticsParams>({});

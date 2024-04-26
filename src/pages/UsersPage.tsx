@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import UserService from '../api/UserService';
-import PageWrapper from '../components/PageWrapper';
+import UserService from '../api/services/UserService';
+import PageWrapper from '../components/containers/PageWrapper';
 import { Box, Card, IconButton, Typography } from '@mui/material';
 import { Update } from '@mui/icons-material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -9,6 +9,7 @@ import { selectUsers, setUsers } from '../store/dataSlice';
 import getFormattedUser from '../utils/getFormattedUser';
 import { User } from '../types';
 import renderCell from '../utils/checkDataGridCell';
+import CustomNoRowsMessage from '../components/common/CustomNoRowsMessage';
 
 
 
@@ -62,8 +63,8 @@ const UsersPage = () => {
                     autoHeight
                     columns={columns}
                     rows={users || []}
-                    checkboxSelection
                     loading={isUsersLoading}
+                    slots={{ noRowsOverlay: isUsersLoading ? () => null : CustomNoRowsMessage }}
                     sx={{ p: "0 15px", '--DataGrid-overlayHeight': '400px' }}
                 />
             </Card>

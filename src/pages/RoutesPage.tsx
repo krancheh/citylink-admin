@@ -1,14 +1,14 @@
 import { Alert, Autocomplete, Box, Button, Card, Collapse, IconButton, TextField, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
-import RoutesService from '../api/RoutesService';
+import RoutesService from '../api/services/RoutesService';
 import { Update } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../store';
 import { selectCities, selectRoutes, setCities, setRoutes } from '../store/dataSlice';
-import PageWrapper from '../components/PageWrapper';
-import CustomDataGridFooter from '../components/CustomDataGridFooter';
-import CustomModal from '../components/CustomModal';
-import { OptionType } from '../components/CustomAutocomplete';
+import PageWrapper from '../components/containers/PageWrapper';
+import CustomDataGridFooter from '../components/common/CustomDataGridFooter';
+import CustomModal from '../components/common/CustomModal';
+import { OptionType } from '../components/common/CustomAutocomplete';
 
 
 const RoutesPage = () => {

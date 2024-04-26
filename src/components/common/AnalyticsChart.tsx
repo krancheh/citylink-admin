@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnalyticsParams, Filter } from "../api/AnalyticsService";
+import { AnalyticsParams, Filter } from "../../api/services/AnalyticsService";
 import { Box, Card, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";

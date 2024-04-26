@@ -1,5 +1,10 @@
 
-
+export enum Position {
+    SUPERVISOR = "Руководитель",
+    DRIVER = "Водитель",
+    MANAGER = "Менеджер",
+    ADMIN = "Администратор",
+}
 
 export enum Path {
     LOGIN = "/login",

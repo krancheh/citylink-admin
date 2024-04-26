@@ -2,16 +2,16 @@ import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { Box, Button, Card, IconButton, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { RouteRecord, RouteRecordSearchData } from "../types";
-import RoutesService from "../api/RoutesService";
+import RoutesService from "../api/services/RoutesService";
 import { useParams } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers";
 import { getFormattedRoute } from "../utils/getFormattedRoute";
 import { useAppDispatch, useAppSelector } from "../store";
 import { selectRouteRecords, setRouteRecords } from "../store/dataSlice";
-import CustomAutocomplete, { OptionType } from "../components/CustomAutocomplete";
+import CustomAutocomplete, { OptionType } from "../components/common/CustomAutocomplete";
 import { SwapHorizOutlined, Update } from '@mui/icons-material';
-import PageWrapper from '../components/PageWrapper';
-import CustomNoRowsMessage from '../components/CustomNoRowsMessage';
+import PageWrapper from '../components/containers/PageWrapper';
+import CustomNoRowsMessage from '../components/common/CustomNoRowsMessage';
 
 
 

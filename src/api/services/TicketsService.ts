@@ -1,5 +1,5 @@
-import { createApiFromPath } from ".";
-import { TicketData } from "../types";
+import { createApiFromPath } from "..";
+import { TicketData } from "../../types";
 
 
 

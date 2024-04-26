@@ -1,7 +1,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
-import Layout from "./components/Layout";
+import Layout from "./components/containers/Layout";
 import AuthPage from "./pages/AuthPage";
-import RequireAuth from "./components/RequireAuth";
+import RequireAuth from "./components/common/RequireAuth";
 import RouteRecordsPage from "./pages/RouteRecordsPage";
 import RoutesPage from './pages/RoutesPage';
 import CitiesPage from './pages/CitiesPage';
@@ -9,6 +9,8 @@ import ErrorPage from './pages/ErrorPage';
 import UsersPage from './pages/UsersPage';
 import TicketsPage from './pages/TicketsPage';
 import HomePage from './pages/HomePage';
+import StaffPage from "./pages/StaffPage";
+import BusesPage from "./pages/BusesPage";
 
 function App() {
 
@@ -23,6 +25,8 @@ function App() {
                     <Route path="cities" element={<CitiesPage />} />
                     <Route path="tickets" element={<TicketsPage />} />
                     <Route path="users" element={<UsersPage />} />
+                    <Route path="staff" element={<StaffPage />} />
+                    <Route path="buses" element={<BusesPage />} />
                 </Route>
             </Route>
 
