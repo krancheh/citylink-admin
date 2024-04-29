@@ -7,8 +7,8 @@ import { selectTickets, setTickets } from '../store/dataSlice'
 import { getFormattedRoute } from '../utils/getFormattedRoute'
 import { TicketData } from '../types'
 import TicketsService from '../api/services/TicketsService'
-import { getFormattedDate } from '../utils/getFormattedDate'
 import CustomNoRowsMessage from '../components/common/CustomNoRowsMessage'
+import dayjs from 'dayjs'
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 60 },
@@ -39,7 +39,7 @@ const TicketsPage = () => {
             const response = await TicketsService.getTickets();
             const { tickets } = response.data;
 
-            const formattedTickets = tickets.map(ticket => ({ ...getFormattedRoute<TicketData>(ticket), purchaseDate: getFormattedDate(ticket.purchaseDate) }));
+            const formattedTickets = tickets.map(ticket => ({ ...getFormattedRoute<TicketData>(ticket), purchaseDate: dayjs(ticket.purchaseDate).format("DD.MM.YYYY") }));
             dispatch(setTickets({ tickets: formattedTickets }));
         } catch (e) {
             console.log(e);

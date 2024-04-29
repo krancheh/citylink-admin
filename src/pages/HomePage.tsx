@@ -4,10 +4,11 @@ import useGetAnalytics from "../hooks/useGetAnalytics"
 import { useEffect, useState } from "react"
 import { AnalyticsParams } from "../api/services/AnalyticsService"
 import AnalyticsChart from "../components/common/AnalyticsChart"
+import dayjs from "dayjs"
 
 const HomePage = () => {
-    const [analyticsParamsTickets, setAnalyticsParamsTickets] = useState<AnalyticsParams>({});
-    const [analyticsParamsRevenue, setAnalyticsParamsRevenue] = useState<AnalyticsParams>({});
+    const [analyticsParamsTickets, setAnalyticsParamsTickets] = useState<AnalyticsParams>({ startDate: dayjs().month(dayjs().month() - 1).valueOf(), endDate: dayjs().valueOf(), filter: "byDay" });
+    const [analyticsParamsRevenue, setAnalyticsParamsRevenue] = useState<AnalyticsParams>({ startDate: dayjs().month(dayjs().month() - 1).valueOf(), endDate: dayjs().valueOf(), filter: "byDay" });
 
     const [tickets, isTicketsLoading] = useGetAnalytics("tickets", analyticsParamsTickets);
     const [revenue, isRevenueLoading] = useGetAnalytics("revenue", analyticsParamsRevenue);

@@ -28,13 +28,11 @@ const Header: React.FC<DrawerStatusProps> = (props) => {
 
     const handleOpenNotificationsMenu: MouseEventHandler<HTMLButtonElement> = (e) => {
         dispatch(addNotification({
-            notification: {
-                id: Date.now(),
-                title: "Добавлен маршрут",
-                description: "Кирилл добавил маршрут",
-                date: "12.02.2024",
-                time: "12:00"
-            }
+            id: Date.now(),
+            title: "Добавлен маршрут",
+            description: "Кирилл добавил маршрут",
+            date: "12.02.2024",
+            time: "12:00"
         }));
         setNotificationsMenuAnchor(e.currentTarget);
     }

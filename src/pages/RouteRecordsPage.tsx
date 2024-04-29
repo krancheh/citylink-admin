@@ -1,8 +1,7 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
-import { Box, Button, Card, IconButton, Typography } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Box, Button, Card, Chip, IconButton, Typography } from "@mui/material";
+import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { RouteRecord, RouteRecordSearchData } from "../types";
-import RoutesService from "../api/services/RoutesService";
 import { useParams } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers";
 import { getFormattedRoute } from "../utils/getFormattedRoute";
@@ -12,13 +11,16 @@ import CustomAutocomplete, { OptionType } from "../components/common/ServerSideA
 import { SwapHorizOutlined, Update } from '@mui/icons-material';
 import PageWrapper from '../components/containers/PageWrapper';
 import CustomNoRowsMessage from '../components/common/CustomNoRowsMessage';
+import CitiesService from '../api/services/CitiesService';
+import RouteRecordsService from '../api/services/RouteRecordsService';
+import { Status } from '../utils/constants';
 
 
 
 
 export const getCities = async (cityName: string) => {
     try {
-        const response = await RoutesService.getCities(cityName);
+        const response = await CitiesService.getCities(cityName);
         const { cities } = response.data;
 
         return new Promise<OptionType[] | []>((resolve) => {
@@ -62,14 +64,19 @@ const RouteRecordsPage = () => {
         { field: "arrivalTime", headerName: "Время прибытия", flex: 0.5, minWidth: 100 },
         { field: "duration", headerName: "Время в пути", hideSortIcons: true, maxWidth: 200, minWidth: 120 },
         { field: "price", headerName: "Цена", flex: 0.5, maxWidth: 150, minWidth: 70 },
-        { field: "departureDate", headerName: "Дата", headerAlign: "right", align: "right", flex: 0.4, maxWidth: 150, minWidth: 100 },
+        { field: "departureDate", headerName: "Дата", flex: 0.4, maxWidth: 150, minWidth: 100 },
+        {
+            field: "status", headerName: "Статус", headerAlign: "right", align: "right", flex: 0.4, maxWidth: 150, minWidth: 100, renderCell: (params: GridRenderCellParams) => {
+                return <Chip color={params.value === 0 ? "warning" : params.value === 1 ? "info" : "default"} label={Status[params.value]} />;
+            }
+        },
     ]
 
     const getRouteRecords = async (searchData: RouteRecordSearchData) => {
         try {
             setIsRoutesLoading(true);
 
-            const { data: routeRecordsData } = await RoutesService.getRouteRecords(searchData);
+            const { data: routeRecordsData } = await RouteRecordsService.getRouteRecords(searchData);
             const formattedRouteRecords: RouteRecord[] = routeRecordsData.routes.map((routeRecordData) => getFormattedRoute(routeRecordData));
             const { countRecords } = routeRecordsData;
             console.log(routeRecordsData);
@@ -184,7 +191,6 @@ const RouteRecordsPage = () => {
                     autoHeight
                     columns={columns}
                     rows={routeRecords || []}
-                    checkboxSelection
                     loading={isRoutesLoading}
                     pagination
                     paginationModel={paginationModel}
