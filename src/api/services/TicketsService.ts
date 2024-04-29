@@ -4,10 +4,10 @@ import { TicketData } from "../../types";
 
 
 class TicketsService {
-    static ticketsApi = createApiFromPath("/tickets");
+    static api = createApiFromPath("/tickets");
 
     static async getTickets(): Promise<{ data: { tickets: TicketData[] } }> {
-        return this.ticketsApi.get("/getTickets");
+        return this.api.get("/getTickets");
     }
 }
 

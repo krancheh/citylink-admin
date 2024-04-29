@@ -16,13 +16,13 @@ export type AnalyticsType = {
 
 
 class AnalyticsService {
-    static analyticsApi = createApiFromPath("/analytics");
+    static api = createApiFromPath("/analytics");
 
     static async getTicketsSold(params: AnalyticsParams): Promise<{ data: AnalyticsType[] }> {
-        return this.analyticsApi.get("getTicketsSold", { params });
+        return this.api.get("getTicketsSold", { params });
     }
     static async getRevenue(params: AnalyticsParams): Promise<{ data: AnalyticsType[] }> {
-        return this.analyticsApi.get("getRevenue", { params });
+        return this.api.get("getRevenue", { params });
     }
 }
 
