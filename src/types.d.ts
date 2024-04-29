@@ -42,10 +42,13 @@ export interface RouteRecordSearchData {
 export interface RouteRecordData {
     id: number | string;
     departureCity: string;
+    departureCityId: number;
     destinationCity: string;
+    destinationCityId: number;
     departureDate: string;
     duration: number;
     price: number;
+    status: 0 | 1 | 2;
 }
 
 export interface TicketData extends RouteRecordData {
@@ -69,6 +72,7 @@ export interface RouteRecord extends RouteRecordData {
     departureTime: string;
     arrivalTime: string;
     duration: string;
+    status: number;
 }
 
 export interface Ticket extends TicketData {
