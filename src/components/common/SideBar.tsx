@@ -14,6 +14,7 @@ import {
 import { DrawerStatusProps } from "../containers/Layout";
 import {
     AssignmentIndOutlined,
+    BarChartOutlined,
     ConfirmationNumberOutlined,
     DirectionsBusFilledOutlined,
     EventNoteOutlined,
@@ -44,6 +45,7 @@ const SideBar: React.FC<DrawerStatusProps> = (props) => {
 
 
     const sideBarRoutes: SidebarRoute[] = [
+        { id: 0, title: "Аналитика", path: Path.MAIN, icon: <BarChartOutlined /> },
         { id: 1, title: "Текущие рейсы", path: Path.ROUTE_RECORDS, icon: <EventNoteOutlined /> },
         { id: 2, title: "Маршруты", path: Path.ROUTES, icon: <RouteOutlined /> },
         { id: 3, title: "Города", path: Path.CITIES, icon: <LocationCityOutlined /> },
