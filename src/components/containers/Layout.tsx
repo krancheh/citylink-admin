@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import Header from "../common/Header";
 import SideBar from "../common/SideBar";
 import { Outlet } from "react-router-dom";
-import { Box, Toolbar } from "@mui/material";
+import { Alert, AlertProps, Box, Snackbar, Toolbar } from "@mui/material";
+import { useAppDispatch, useAppSelector } from '../../store';
+import { selectSnackbar, setSnackbar } from '../../store/notificationsSlice';
 
 export interface DrawerStatusProps {
     isDrawerOpen?: boolean;
@@ -12,6 +14,9 @@ export interface DrawerStatusProps {
 
 const Layout = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const snackbar = useAppSelector(selectSnackbar);
+
+    const dispatch = useAppDispatch();
 
     const openDrawer = () => {
         setIsDrawerOpen(true);
@@ -21,6 +26,8 @@ const Layout = () => {
         setIsDrawerOpen(false);
     }
 
+    const handleCloseSnackbar = () => dispatch(setSnackbar(null));
+
     return (
         <>
             <Header isDrawerOpen={isDrawerOpen} openDrawer={openDrawer} />
@@ -29,6 +36,16 @@ const Layout = () => {
                 <Toolbar />
                 <Outlet />
             </Box>
+            {!!snackbar
+                && <Snackbar
+                    open
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    onClose={handleCloseSnackbar}
+                    autoHideDuration={5000}
+                >
+                    <Alert {...snackbar} onClose={handleCloseSnackbar} />
+                </Snackbar>
+            }
         </>
     );
 };
