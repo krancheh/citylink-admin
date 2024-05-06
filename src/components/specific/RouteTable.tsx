@@ -1,12 +1,12 @@
-import { Button, Card, IconButton } from "@mui/material";
-import { DataGrid, GridColDef, GridRenderCellParams, GridRow, GridRowParams, GridRowProps } from "@mui/x-data-grid";
+import {Button, Card, IconButton} from "@mui/material";
+import {DataGrid, GridColDef, GridRow, GridRowProps} from "@mui/x-data-grid";
 import CustomDataGridFooter from "../common/CustomDataGridFooter";
-import { useAppSelector } from "../../store";
-import { selectRoutes } from "../../store/dataSlice";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import {useAppSelector} from "../../store";
+import {selectRoutes} from "../../store/dataSlice";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import RouteForm from "./RouteForm";
-import { EditOutlined } from "@mui/icons-material";
-import { OptionType } from "../common/ServerSideAutocomplete";
+import {EditOutlined} from "@mui/icons-material";
+import {OptionType} from "../common/ServerSideAutocomplete";
 
 interface IProps {
     isRoutesFetching: boolean;
@@ -22,14 +22,13 @@ export interface EditParams {
 }
 
 const RouteTable = (props: IProps) => {
-    const { getRoutes, isRoutesFetching, setIsModalOpen } = props;
+    const {getRoutes, isRoutesFetching, setIsModalOpen} = props;
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const [editParams, setEditParams] = useState<EditParams>();
 
     const routes = useAppSelector(selectRoutes);
-
 
 
     useEffect(() => {
@@ -39,12 +38,17 @@ const RouteTable = (props: IProps) => {
 
 
     const columns: GridColDef[] = [
-        { field: "id", headerName: "ID", hideSortIcons: true, width: 65 },
-        { field: "departureCity", headerName: "Город отправления", flex: 0.4, minWidth: 200 },
-        { field: "destinationCity", headerName: "Город прибытия", flex: 0.4, minWidth: 200 },
-        { field: "duration", headerName: "Время в пути", flex: 0.2, minWidth: 120 },
+        {field: "id", headerName: "ID", hideSortIcons: true, width: 65},
+        {field: "departureCity", headerName: "Город отправления", flex: 0.4, minWidth: 200},
+        {field: "destinationCity", headerName: "Город прибытия", flex: 0.4, minWidth: 200},
+        {field: "duration", headerName: "Время в пути", flex: 0.2, minWidth: 120},
         {
-            field: "action", headerName: "", width: 25, disableColumnMenu: true, hideSortIcons: true, renderCell: (params: GridRenderCellParams) => {
+            field: "action",
+            headerName: "",
+            width: 25,
+            disableColumnMenu: true,
+            hideSortIcons: true,
+            renderCell: () => {
                 return null;
             }
         }
@@ -80,13 +84,13 @@ const RouteTable = (props: IProps) => {
 
         const duration = row?.duration;
 
-        setEditParams({ routeId, departureCity, destinationCity, duration });
+        setEditParams({routeId, departureCity, destinationCity, duration});
         setIsEditModalOpen(true);
     }
 
     return (
         <Card
-            sx={{ maxWidth: "800px", width: "100%" }}
+            sx={{maxWidth: "800px", width: "100%"}}
         >
             <DataGrid
                 autoHeight
@@ -96,31 +100,32 @@ const RouteTable = (props: IProps) => {
                 slots={{
                     footer: () => (
                         <CustomDataGridFooter>
-                            <Button variant='outlined' size='small' sx={{ lineHeight: { sm: "25px", xs: "13px" } }} onClick={() => setIsModalOpen(true)}>Добавить маршрут</Button>
+                            <Button variant='outlined' size='small' sx={{lineHeight: {sm: "25px", xs: "13px"}}}
+                                    onClick={() => setIsModalOpen(true)}>Добавить маршрут</Button>
                         </CustomDataGridFooter>
                     ),
                     row: (props: GridRowProps) => (
-                        <div className="row-container" style={{ position: 'relative' }}>
+                        <div className="row-container" style={{position: 'relative'}}>
                             <GridRow {...props} />
                             <IconButton
                                 className="row-button"
-                                style={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }}
+                                style={{position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)'}}
                                 onClick={() => handleRowEdit(props.row)}
                             >
-                                <EditOutlined />
+                                <EditOutlined/>
                             </IconButton>
                         </div>
                     )
                 }}
                 initialState={{
                     sorting: {
-                        sortModel: [{ field: 'id', sort: 'asc' }],
+                        sortModel: [{field: 'id', sort: 'asc'}],
                     },
                 }}
                 sx={rowStyles}
             />
 
-            <RouteForm isModalOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen} editParams={editParams} />
+            <RouteForm isModalOpen={isEditModalOpen} setIsModalOpen={setIsEditModalOpen} editParams={editParams}/>
 
         </Card>
     )

@@ -1,20 +1,19 @@
-import { Update } from '@mui/icons-material';
-import { Box, IconButton, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
+import {Info, Update} from '@mui/icons-material';
+import {Box, IconButton, TextField, Typography} from '@mui/material';
+import {useState} from 'react';
 import PageWrapper from '../components/containers/PageWrapper';
 import useGetCities from '../hooks/useGetCities';
 import createDebounce from '../utils/createDebounce';
-import { City } from '../types';
+import {City} from '../types';
 import CityForm from '../components/specific/CityForm';
 import CityTable from '../components/specific/CityTable';
-
 
 
 const CitiesPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [cityName, setCityName] = useState("");
 
-    const { cities, setCities, isLoading } = useGetCities(cityName);
+    const {cities, setCities, isLoading} = useGetCities(cityName);
 
     const handleAddCity = (city: City) => {
         setCities(prev => [...prev, city]);
@@ -26,16 +25,26 @@ const CitiesPage = () => {
         <PageWrapper>
             <Box display="flex" mb="20px">
                 <Typography variant={"h4"}>Таблица городов</Typography>
-                <IconButton onClick={() => setCityName("")}><Update /></IconButton>
+                <IconButton onClick={() => setCityName("")}><Update/></IconButton>
             </Box>
             <TextField
                 variant='outlined'
                 label='Поиск'
                 size='small'
-                onChange={(e) => { debouncedSetCityName(e.target.value) }}
+                onChange={(e) => {
+                    debouncedSetCityName(e.target.value)
+                }}
             />
-            <CityTable cities={cities} isLoading={isLoading} setIsModalOpen={setIsModalOpen} />
-            <CityForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleAddCity={handleAddCity} />
+            <CityTable cities={cities} isLoading={isLoading} setIsModalOpen={setIsModalOpen}/>
+            <Typography
+                variant={"body2"}
+                color={theme => theme.palette.grey["700"]}
+                sx={{display: "flex", alignItems: "center", mt: 1}}
+            >
+                <Info sx={{height: 20}}/>
+                Для изменения города, нажмите на него два раза
+            </Typography>
+            <CityForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} handleAddCity={handleAddCity}/>
         </PageWrapper>
     )
 }

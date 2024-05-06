@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Header from "../common/Header";
 import SideBar from "../common/SideBar";
 import { Outlet } from "react-router-dom";
-import { Alert, AlertProps, Box, Snackbar, Toolbar } from "@mui/material";
+import { Alert, Box, Snackbar, Toolbar } from "@mui/material";
 import { useAppDispatch, useAppSelector } from '../../store';
 import { selectSnackbar, setSnackbar } from '../../store/notificationsSlice';
 
